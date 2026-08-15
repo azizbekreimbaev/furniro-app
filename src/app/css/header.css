@@ -1,344 +1,603 @@
+/* ======================================================
+   HEADER BASE
+====================================================== */
 .header {
     width: 100%;
-    height: 82px;
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    position: relative;
-    z-index: 100;
+    height: 84px;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    color: #292722;
+    overflow: visible;
+    box-sizing: border-box;
+    transition:
+        color 0.35s ease,
+        background-color 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease,
+        backdrop-filter 0.35s ease;
 }
 
+/* ======================================================
+   HOME HEADER
+
+   MUHIM:
+   Home page'da boshidan oxirigacha FIXED.
+   Position scroll paytida o'zgarmaydi.
+====================================================== */
+.header-home {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #fffdf8;
+    background: transparent;
+    border-bottom:
+        1px solid transparent;
+    box-shadow: none;
+}
+
+/* ======================================================
+   HOME HEADER SCROLLED
+====================================================== */
+.header-home.header-scrolled {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #292722;
+    background:
+        rgba(250,
+            247,
+            240,
+            0.96);
+    border-bottom:
+        1px solid rgba(215,
+            207,
+            193,
+            0.85);
+    -webkit-backdrop-filter:
+        blur(16px);
+    backdrop-filter:
+        blur(16px);
+    box-shadow:
+        0 6px 26px rgba(45,
+            39,
+            31,
+            0.08);
+}
+
+/* ======================================================
+   OTHER PAGE HEADER
+====================================================== */
+.header-inner {
+    position: sticky;
+    top: 0;
+    color: #292722;
+    background: #faf7f0;
+    border-bottom:
+        1px solid #e5ded2;
+    box-shadow:
+        0 3px 18px rgba(45,
+            39,
+            31,
+            0.04);
+}
+
+/* ======================================================
+   HEADER CONTAINER
+====================================================== */
 .header-container {
-    width: calc(100% - 60px);
-    max-width: 1280px;
+    width: calc(100% - 70px);
+    max-width: 1360px;
     height: 100%;
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 34px;
 }
 
-/* =====================
+/* ======================================================
    LOGO
-===================== */
+====================================================== */
 .header-logo {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 9px;
-    color: #222222;
+    gap: 13px;
+    color: inherit;
     text-decoration: none;
 }
 
+/* ======================================================
+   LOGO MARK
+====================================================== */
 .header-logo-mark {
-    width: 27px;
-    height: 28px;
+    width: 32px;
+    height: 36px;
     display: flex;
     align-items: flex-end;
-    gap: 2px;
-    transform: skew(-12deg);
+    gap: 3px;
+    transform:
+        skew(-13deg);
 }
 
 .header-logo-mark span {
-    width: 6px;
+    width: 7px;
     display: block;
-    background: #222222;
+    background:
+        currentColor;
 }
 
 .header-logo-mark span:nth-child(1) {
-    height: 14px;
+    height: 18px;
 }
 
 .header-logo-mark span:nth-child(2) {
-    height: 21px;
+    height: 26px;
 }
 
 .header-logo-mark span:nth-child(3) {
-    height: 27px;
+    height: 35px;
 }
 
+/* ======================================================
+   LOGO INFORMATION
+====================================================== */
 .header-logo-info {
     display: flex;
     flex-direction: column;
-    line-height: 1;
 }
 
 .header-logo-info strong {
-    font-size: 15px;
+    color: inherit;
+    font-size: 21px;
     font-weight: 800;
-    letter-spacing: 1px;
+    line-height: 1;
+    letter-spacing: 1.4px;
 }
 
 .header-logo-info small {
-    margin-top: 5px;
-    font-size: 5px;
-    letter-spacing: 1.7px;
-    color: #8c8c8c;
+    margin-top: 6px;
+    color: inherit;
+    opacity: 0.57;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    white-space: nowrap;
 }
 
-/* =====================
-   NAVBAR
-===================== */
+/* ======================================================
+   NAVIGATION
+====================================================== */
 .header-menu {
+    margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 38px;
+    gap: 34px;
 }
 
+/* ======================================================
+   NAV LINK
+====================================================== */
 .header-nav-link {
+    height: 84px;
     position: relative;
-    color: #222222;
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: 0.2s ease;
+    white-space: nowrap;
+    transition:
+        opacity 0.2s ease;
 }
 
+.header-nav-link:hover {
+    opacity: 0.68;
+}
+
+/* ACTIVE LINE */
 .header-nav-link::after {
     content: "";
-    position: absolute;
-    left: 0;
-    bottom: -8px;
     width: 0;
     height: 1px;
-    background: #222222;
-    transition: width 0.25s ease;
-}
-
-.header-nav-link:hover::after {
-    width: 100%;
-}
-
-/* ACTIVE NAVLINK */
-.header-nav-link.active {
-    font-weight: 600;
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform:
+        translateX(-50%);
+    background:
+        currentColor;
+    transition:
+        width 0.25s ease;
 }
 
 .header-nav-link.active::after {
     width: 100%;
 }
 
-/* =====================
-   RIGHT SIDE
-===================== */
+/* ======================================================
+   ACTIONS
+====================================================== */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 11px;
+    gap: 9px;
+    flex-shrink: 0;
 }
 
-/* CART */
-.header-cart {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-right: 5px;
-    color: #222222;
-    text-decoration: none;
-    font-size: 12px;
-    transition: 0.2s;
-}
-
-.header-cart:hover {
-    opacity: 0.6;
-}
-
-.header-cart.active {
-    font-weight: 600;
-}
-
-/* LOGIN + SIGN UP */
-.header-login,
-.header-signup {
-    height: 38px;
-    padding: 0 18px;
-    border: 1px solid #222222;
-    font-size: 11px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.header-login {
-    color: #222222;
-    background: #ffffff;
-}
-
-.header-login:hover {
-    color: #ffffff;
-    background: #222222;
-}
-
-.header-signup {
-    color: #ffffff;
-    background: #222222;
-}
-
-.header-signup:hover {
-    color: #222222;
-    background: #ffffff;
-}
-
-/* =====================
-   TABLET
-===================== */
-@media screen and (max-width: 900px) {
-    .header-container {
-        width: calc(100% - 30px);
-    }
-
-    .header-menu {
-        gap: 18px;
-    }
-
-    .header-login,
-    .header-signup {
-        padding: 0 11px;
-    }
-}
-
-/* =====================
-   MOBILE
-===================== */
-@media screen and (max-width: 750px) {
-    .header {
-        height: auto;
-    }
-
-    .header-container {
-        padding: 18px 0;
-        flex-wrap: wrap;
-        gap: 18px;
-    }
-
-    .header-menu {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .header-logo-info small {
-        display: none;
-    }
-
-    .header-menu {
-        gap: 14px;
-    }
-
-    .header-nav-link {
-        font-size: 10px;
-    }
-
-    .header-cart span {
-        display: none;
-    }
-
-    .header-login,
-    .header-signup {
-        height: 34px;
-        padding: 0 9px;
-        font-size: 9px;
-    }
-}
-
-/* =====================
-   SEARCH
-===================== */
-.header-search {
-    width: 190px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #dddddd;
-}
-
-.header-search-icon {
-    width: 28px;
-    height: 34px;
-    padding: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    color: #555555;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.header-search input {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    color: #222222;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 10px;
-}
-
-.header-search input::placeholder {
-    color: #aaaaaa;
-}
-
-.header-search:focus-within {
-    border-bottom-color: #222222;
-}
-
-@media screen and (max-width: 1050px) {
-    .header-search {
-        width: 140px;
-    }
-
-    .header-menu {
-        gap: 20px;
-    }
-}
-
-@media screen and (max-width: 750px) {
-    .header-search {
-        order: 3;
-        width: 100%;
-    }
-
-    .header-menu {
-        order: 4;
-    }
-}
-
-/* ==========================
-   BASKET BUTTON
-========================== */
+/* ======================================================
+   BASKET
+====================================================== */
 .header-basket-button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     padding: 0;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #222222;
-    background: transparent;
     border: none;
+    border-radius: 0;
+    color: inherit;
+    background: transparent;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        opacity 0.2s ease;
 }
 
 .header-basket-button:hover {
-    background: #f5f5f5;
+    background:
+        rgba(128,
+            112,
+            89,
+            0.08);
 }
 
+/* ======================================================
+   BASKET COUNT
+====================================================== */
 .header-basket-count {
-    width: 17px;
-    height: 17px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
     position: absolute;
     top: 0;
-    right: 0;
+    right: -1px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #222222;
+    border-radius: 20px;
     color: #ffffff;
-    border-radius: 50%;
-    font-size: 8px;
+    background: #292722;
+    font-size: 10px;
     font-weight: 600;
+    line-height: 1;
+}
+
+/* HOME TRANSPARENT COUNT */
+.header-home:not(.header-scrolled) .header-basket-count {
+    color: #292722;
+    background: #dfccb0;
+}
+
+/* ======================================================
+   LOGIN / SIGN UP
+====================================================== */
+.header-login,
+.header-signup {
+    height: 44px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+/* LOGIN */
+.header-login {
+    border:
+        1px solid #292722;
+    color: #292722;
+    background: transparent;
+}
+
+.header-login:hover {
+    background:
+        rgba(41,
+            39,
+            34,
+            0.05);
+}
+
+/* SIGNUP */
+.header-signup {
+    border:
+        1px solid #292722;
+    color: #fffdf8;
+    background: #292722;
+}
+
+.header-signup:hover {
+    transform:
+        translateY(-1px);
+    background: #3a3731;
+}
+
+/* ======================================================
+   HOME TRANSPARENT BUTTONS
+====================================================== */
+.header-home:not(.header-scrolled) .header-login {
+    color: #fffdf8;
+    border-color:
+        rgba(255,
+            253,
+            248,
+            0.62);
+    background:
+        rgba(255,
+            255,
+            255,
+            0.03);
+}
+
+.header-home:not(.header-scrolled) .header-login:hover {
+    background:
+        rgba(255,
+            255,
+            255,
+            0.1);
+}
+
+/* HOME SIGNUP */
+.header-home:not(.header-scrolled) .header-signup {
+    color: #292722;
+    border-color: #dfccb0;
+    background: #dfccb0;
+}
+
+.header-home:not(.header-scrolled) .header-signup:hover {
+    background: #eee2d0;
+    border-color: #eee2d0;
+}
+
+/* ======================================================
+   SHOP SEARCH
+====================================================== */
+.header-search {
+    width: 230px;
+    height: 43px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    border-bottom:
+        1px solid #d7cfc1;
+}
+
+/* SEARCH BUTTON */
+.header-search-icon {
+    width: 36px;
+    height: 42px;
+    padding: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: none;
+    color: #716c64;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* SEARCH INPUT */
+.header-search input {
+    width: 100%;
+    height: 42px;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    color: #292722;
+    background: transparent;
+    font-size: 13px;
+}
+
+.header-search input::placeholder {
+    color: #aaa298;
+}
+
+/* ======================================================
+   LARGE TABLET
+====================================================== */
+@media screen and (max-width: 1150px) {
+    .header-container {
+        width:
+            calc(100% - 40px);
+        gap: 22px;
+    }
+
+    .header-menu {
+        gap: 22px;
+    }
+
+    .header-nav-link {
+        font-size: 13px;
+    }
+
+    .header-login,
+    .header-signup {
+        padding:
+            0 15px;
+    }
+
+    .header-search {
+        width: 190px;
+    }
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+@media screen and (max-width: 950px) {
+    .header-container {
+        gap: 15px;
+    }
+
+    .header-menu {
+        gap: 16px;
+    }
+
+    .header-nav-link {
+        font-size: 12px;
+    }
+
+    .header-login {
+        display: none;
+    }
+
+    .header-search {
+        width: 170px;
+    }
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+@media screen and (max-width: 800px) {
+    .header {
+        height: 72px;
+    }
+
+    .header-home {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .header-home.header-scrolled {
+        position: fixed;
+    }
+
+    .header-inner {
+        position: sticky;
+        top: 0;
+    }
+
+    .header-container {
+        width:
+            calc(100% - 30px);
+        gap: 15px;
+    }
+
+    /* MENU HIDDEN */
+    .header-menu {
+        display: none;
+    }
+
+    /* LOGO */
+    .header-logo {
+        margin-right: auto;
+    }
+
+    .header-logo-mark {
+        width: 27px;
+        height: 31px;
+    }
+
+    .header-logo-mark span:nth-child(1) {
+        height: 15px;
+    }
+
+    .header-logo-mark span:nth-child(2) {
+        height: 23px;
+    }
+
+    .header-logo-mark span:nth-child(3) {
+        height: 30px;
+    }
+
+    .header-logo-info strong {
+        font-size: 18px;
+    }
+
+    .header-logo-info small {
+        font-size: 7px;
+        letter-spacing: 1.5px;
+    }
+
+    /* SEARCH */
+    .header-search {
+        display: none;
+    }
+
+    /* ACTIONS */
+    .header-actions {
+        margin-left: auto;
+    }
+
+    .header-login {
+        display: none;
+    }
+
+    .header-signup {
+        height: 40px;
+        padding:
+            0 14px;
+        font-size: 11px;
+    }
+
+    .header-basket-button {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* ======================================================
+   SMALL MOBILE
+====================================================== */
+@media screen and (max-width: 430px) {
+    .header-container {
+        width:
+            calc(100% - 22px);
+    }
+
+    .header-logo {
+        gap: 9px;
+    }
+
+    .header-logo-info strong {
+        font-size: 17px;
+    }
+
+    .header-logo-info small {
+        display: none;
+    }
+
+    .header-signup {
+        height: 38px;
+        padding:
+            0 11px;
+        font-size: 10px;
+    }
+
+    .header-basket-button {
+        width: 38px;
+        height: 38px;
+    }
 }

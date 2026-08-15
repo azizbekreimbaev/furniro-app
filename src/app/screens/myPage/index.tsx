@@ -217,7 +217,8 @@ const MyPage = () => {
                                             width: 130,
                                             height: 130,
                                             fontSize: 42,
-                                            backgroundColor: "#222",
+                                            backgroundColor: "#292722",
+                                            color: "#fffdf8",
                                         }}
                                     >
                                         {profile.memberNick
@@ -280,16 +281,27 @@ const MyPage = () => {
                                     onClick={handleChooseImage}
                                     sx={{
                                         mt: 3,
-                                        height: 42,
+
+                                        height: 46,
+
                                         borderRadius: 0,
-                                        borderColor: "#222",
-                                        color: "#222",
-                                        fontSize: 10,
+
+                                        borderColor: "#292722",
+
+                                        color: "#292722",
+
+                                        fontSize: 11,
+
+                                        fontWeight: 600,
+
                                         letterSpacing: 1,
+
                                         "&:hover": {
-                                            borderColor: "#222",
-                                            backgroundColor: "#222",
-                                            color: "#fff",
+                                            borderColor: "#292722",
+
+                                            backgroundColor: "#292722",
+
+                                            color: "#fffdf8",
                                         },
                                     }}
                                 >
@@ -575,21 +587,25 @@ const inputStyles = {
 
         fontFamily: "inherit",
 
+        color: "#292722",
+
+        backgroundColor: "#fffdf8",
+
         "& fieldset": {
-            borderColor: "#e2e2e2",
+            borderColor: "#ded5c8",
         },
 
         "&:hover fieldset": {
-            borderColor: "#999",
+            borderColor: "#b8aa96",
         },
 
         "&.Mui-focused fieldset": {
-            borderColor: "#222",
+            borderColor: "#a68966",
             borderWidth: "1px",
         },
 
         "&.Mui-disabled": {
-            backgroundColor: "#fafafa",
+            backgroundColor: "#f5eee4",
         },
     },
 
@@ -598,7 +614,7 @@ const inputStyles = {
     },
 
     "& .MuiInputBase-input.Mui-disabled": {
-        WebkitTextFillColor: "#555",
+        WebkitTextFillColor: "#716b62",
     },
 };
 

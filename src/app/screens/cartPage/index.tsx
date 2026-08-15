@@ -356,39 +356,7 @@ const CartPage = () => {
                                             </div>
 
                                             <div className="checkout-product-options">
-                                                <select
-                                                    value={product.size}
-                                                    onChange={(event) => {
-                                                        const value =
-                                                            event.target.value;
 
-                                                        setCartProducts(
-                                                            (products) =>
-                                                                products.map(
-                                                                    (item) =>
-                                                                        item._id ===
-                                                                            product._id
-                                                                            ? {
-                                                                                ...item,
-                                                                                size: value,
-                                                                            }
-                                                                            : item
-                                                                )
-                                                        );
-                                                    }}
-                                                >
-                                                    <option value="Small">
-                                                        Small
-                                                    </option>
-
-                                                    <option value="Medium">
-                                                        Medium
-                                                    </option>
-
-                                                    <option value="Large">
-                                                        Large
-                                                    </option>
-                                                </select>
 
                                                 <div className="checkout-color-list">
                                                     <span className="cart-color-blue" />

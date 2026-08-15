@@ -2,150 +2,301 @@ import { useEffect } from "react";
 import { useLocation } from "react-router";
 
 import "../../css/aboutpage.css";
-import heroImage from "../../../../public/images/banner.png";
+
+const ABOUT_IMAGE = "/images/banner.png";
 
 const AboutUsPage = () => {
     const location = useLocation();
 
+    /* =========================================
+       SCROLL TO CONTACT
+    ========================================= */
+
     useEffect(() => {
-        if (location.hash === "#contact") {
-            setTimeout(() => {
-                document
-                    .getElementById("contact")
-                    ?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                    });
-            }, 50);
+        if (location.hash !== "#contact") {
+            return;
         }
-    }, [location]);
+
+        const timeoutId = window.setTimeout(() => {
+            document
+                .getElementById("contact")
+                ?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+        }, 100);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [location.hash]);
 
     return (
         <main className="about-page">
-            {/* ==========================
-          ABOUT HERO
-      ========================== */}
+            {/* =================================
+                HERO
+            ================================= */}
 
             <section className="about-hero">
                 <div className="about-container">
-                    <span>WHO WE ARE</span>
+                    <div className="about-hero-content">
+                        <div className="about-eyebrow">
+                            <span />
 
-                    <h1>
-                        ABOUT FURNITUR
-                    </h1>
+                            <p>WHO WE ARE</p>
+                        </div>
 
-                    <p>
-                        We create furniture for modern living,
-                        combining timeless design, functionality
-                        and comfort.
-                    </p>
+                        <h1>
+                            FURNITURE FOR
+                            <span>BETTER LIVING.</span>
+                        </h1>
+
+                        <div className="about-hero-bottom">
+                            <p>
+                                Furniro brings together timeless
+                                furniture, natural materials and
+                                thoughtful design for homes that
+                                feel warm, personal and made for
+                                everyday life.
+                            </p>
+
+                            <div className="about-hero-signature">
+                                <span>EST.</span>
+
+                                <strong>2026</strong>
+
+                                <i />
+
+                                <span>SEOUL</span>
+
+                                <strong>SOUTH KOREA</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="about-hero-word">
+                    FURNIRO
                 </div>
             </section>
 
-            {/* ==========================
-          ABOUT CONTENT
-      ========================== */}
+            {/* =================================
+                STORY
+            ================================= */}
 
             <section className="about-story">
                 <div className="about-container">
                     <div className="about-story-grid">
+                        {/* IMAGE */}
+
                         <div className="about-story-image">
                             <img
-                                src={heroImage}
-                                alt="Furnitur interior"
+                                src={ABOUT_IMAGE}
+                                alt="Furniro modern interior"
                             />
+
+                            <div className="about-story-image-overlay" />
+
+                            <div className="about-story-image-caption">
+                                <span>
+                                    01
+                                </span>
+
+                                <p>
+                                    DESIGNED FOR
+                                    <br />
+                                    EVERYDAY LIVING
+                                </p>
+                            </div>
                         </div>
 
+                        {/* CONTENT */}
+
                         <div className="about-story-content">
-                            <span>
-                                OUR STORY
-                            </span>
+                            <div className="about-eyebrow">
+                                <span />
+
+                                <p>
+                                    OUR STORY
+                                </p>
+                            </div>
 
                             <h2>
-                                FURNITURE DESIGNED
+                                DESIGN THAT
                                 <br />
-                                FOR YOUR LIFE
+                                FEELS LIKE
+                                <span>HOME.</span>
                             </h2>
 
                             <p>
-                                Furnitur was created with a simple
-                                idea: beautiful furniture should
-                                also be functional, comfortable and
-                                made for everyday living.
+                                Furniro was created with one simple
+                                belief: beautiful furniture should
+                                never come at the expense of comfort
+                                or everyday functionality.
                             </p>
 
                             <p>
-                                We carefully select products that
-                                combine modern design, quality
-                                materials and timeless character.
+                                We carefully select furniture that
+                                combines understated forms, quality
+                                materials and timeless character —
+                                pieces designed to live with you for
+                                years.
                             </p>
+
+                            <div className="about-story-quote">
+                                <span />
+
+                                <blockquote>
+                                    Good furniture should quietly
+                                    become part of the way you live.
+                                </blockquote>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* ==========================
-          VALUES
-      ========================== */}
+            {/* =================================
+                VALUES
+            ================================= */}
 
             <section className="about-values">
                 <div className="about-container">
-                    <div className="about-section-title">
-                        <span>
-                            WHY FURNITUR
-                        </span>
+                    <div className="about-section-heading">
+                        <div>
+                            <div className="about-eyebrow">
+                                <span />
 
-                        <h2>
-                            WHAT WE BELIEVE IN
-                        </h2>
+                                <p>
+                                    WHY FURNIRO
+                                </p>
+                            </div>
+
+                            <h2>
+                                WHAT WE
+                                <br />
+                                BELIEVE IN.
+                            </h2>
+                        </div>
+
+                        <p className="about-section-description">
+                            Every Furniro piece is selected with
+                            the same principles in mind: lasting
+                            quality, thoughtful design and comfort
+                            that works in real homes.
+                        </p>
                     </div>
 
                     <div className="about-values-grid">
+                        {/* VALUE 01 */}
+
                         <article>
-                            <span>01</span>
+                            <div className="about-value-top">
+                                <span>
+                                    01
+                                </span>
+
+                                <i />
+                            </div>
 
                             <h3>
                                 QUALITY
                             </h3>
 
                             <p>
-                                Carefully selected furniture made
-                                with quality materials.
+                                We focus on durable materials,
+                                thoughtful construction and
+                                furniture designed for everyday
+                                use.
                             </p>
+
+                            <strong>
+                                MADE TO LAST
+                            </strong>
                         </article>
 
+                        {/* VALUE 02 */}
+
                         <article>
-                            <span>02</span>
+                            <div className="about-value-top">
+                                <span>
+                                    02
+                                </span>
+
+                                <i />
+                            </div>
 
                             <h3>
                                 DESIGN
                             </h3>
 
                             <p>
-                                Modern and timeless designs created
-                                for different interiors.
+                                Calm proportions, natural tones and
+                                timeless forms allow every piece to
+                                work across different interiors.
                             </p>
+
+                            <strong>
+                                TIMELESS FORMS
+                            </strong>
                         </article>
 
+                        {/* VALUE 03 */}
+
                         <article>
-                            <span>03</span>
+                            <div className="about-value-top">
+                                <span>
+                                    03
+                                </span>
+
+                                <i />
+                            </div>
 
                             <h3>
                                 COMFORT
                             </h3>
 
                             <p>
-                                Furniture should look beautiful and
-                                feel comfortable every day.
+                                A home should look beautiful, but
+                                more importantly it should feel
+                                comfortable every single day.
                             </p>
+
+                            <strong>
+                                REAL LIVING
+                            </strong>
                         </article>
                     </div>
                 </div>
             </section>
 
-            {/* ==========================
-          CONTACT US
-      ========================== */}
+            {/* =================================
+                STATEMENT
+            ================================= */}
+
+            <section className="about-statement">
+                <div className="about-container">
+                    <div className="about-statement-content">
+                        <span>
+                            FURNIRO PHILOSOPHY
+                        </span>
+
+                        <h2>
+                            LESS NOISE.
+                            <br />
+                            MORE COMFORT.
+                            <br />
+                            <em>
+                                BETTER SPACES.
+                            </em>
+                        </h2>
+                    </div>
+                </div>
+            </section>
+
+            {/* =================================
+                CONTACT
+            ================================= */}
 
             <section
                 className="about-contact"
@@ -153,35 +304,46 @@ const AboutUsPage = () => {
             >
                 <div className="about-container">
                     <div className="about-contact-grid">
+                        {/* LEFT */}
+
                         <div className="about-contact-info">
-                            <span>
-                                GET IN TOUCH
-                            </span>
+                            <div className="about-eyebrow">
+                                <span />
+
+                                <p>
+                                    GET IN TOUCH
+                                </p>
+                            </div>
 
                             <h2>
-                                HAVE A QUESTION?
+                                LET'S TALK
                                 <br />
-                                CONTACT US
+                                ABOUT YOUR
+                                <span>SPACE.</span>
                             </h2>
 
-                            <p>
-                                Have questions about products,
-                                shipping, orders or anything else?
+                            <p className="about-contact-description">
+                                Questions about furniture, delivery,
+                                orders or your next interior project?
                                 Send us a message and our team will
-                                get back to you.
+                                be happy to help.
                             </p>
 
                             <div className="about-contact-details">
                                 <div>
-                                    <span>EMAIL</span>
+                                    <span>
+                                        EMAIL
+                                    </span>
 
                                     <strong>
-                                        support@furnitur.com
+                                        support@furniro.com
                                     </strong>
                                 </div>
 
                                 <div>
-                                    <span>PHONE</span>
+                                    <span>
+                                        PHONE
+                                    </span>
 
                                     <strong>
                                         +82 10 7557 0089
@@ -189,7 +351,9 @@ const AboutUsPage = () => {
                                 </div>
 
                                 <div>
-                                    <span>ADDRESS</span>
+                                    <span>
+                                        LOCATION
+                                    </span>
 
                                     <strong>
                                         Seoul, South Korea
@@ -198,19 +362,36 @@ const AboutUsPage = () => {
                             </div>
                         </div>
 
-                        {/* CONTACT FORM */}
+                        {/* FORM */}
 
                         <form
                             className="about-contact-form"
                             onSubmit={(event) => {
                                 event.preventDefault();
 
-                                // Keyinchalik backendga yuboramiz
-                                console.log("Contact form submitted");
+                                /*
+                                 * Keyinchalik backend:
+                                 *
+                                 * ContactService.send(...)
+                                 */
+
+                                console.log(
+                                    "Contact form submitted"
+                                );
                             }}
                         >
+                            <div className="about-contact-form-heading">
+                                <span>
+                                    SEND A MESSAGE
+                                </span>
+
+                                <h3>
+                                    How can we help?
+                                </h3>
+                            </div>
+
                             <div className="about-contact-row">
-                                <div>
+                                <div className="about-form-group">
                                     <label htmlFor="contactName">
                                         YOUR NAME
                                     </label>
@@ -218,11 +399,12 @@ const AboutUsPage = () => {
                                     <input
                                         id="contactName"
                                         type="text"
-                                        placeholder="Your name"
+                                        placeholder="Enter your name"
+                                        required
                                     />
                                 </div>
 
-                                <div>
+                                <div className="about-form-group">
                                     <label htmlFor="contactEmail">
                                         YOUR EMAIL
                                     </label>
@@ -230,12 +412,13 @@ const AboutUsPage = () => {
                                     <input
                                         id="contactEmail"
                                         type="email"
-                                        placeholder="Your email"
+                                        placeholder="Enter your email"
+                                        required
                                     />
                                 </div>
                             </div>
 
-                            <div>
+                            <div className="about-form-group">
                                 <label htmlFor="contactSubject">
                                     SUBJECT
                                 </label>
@@ -244,10 +427,11 @@ const AboutUsPage = () => {
                                     id="contactSubject"
                                     type="text"
                                     placeholder="How can we help?"
+                                    required
                                 />
                             </div>
 
-                            <div>
+                            <div className="about-form-group">
                                 <label htmlFor="contactMessage">
                                     MESSAGE
                                 </label>
@@ -256,11 +440,19 @@ const AboutUsPage = () => {
                                     id="contactMessage"
                                     rows={6}
                                     placeholder="Write your message..."
+                                    required
                                 />
                             </div>
 
-                            <button type="submit">
+                            <button
+                                type="submit"
+                                className="about-contact-submit"
+                            >
                                 SEND MESSAGE
+
+                                <span>
+                                    →
+                                </span>
                             </button>
                         </form>
                     </div>

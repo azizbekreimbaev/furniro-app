@@ -1,4 +1,8 @@
-import { useEffect, useState, type FormEvent } from "react";
+import {
+    useEffect,
+    useState,
+    type FormEvent,
+} from "react";
 
 import {
     Link,
@@ -15,37 +19,111 @@ const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const isShopPage = location.pathname === "/shop";
+    const isHomePage =
+        location.pathname === "/";
 
-    const [searchText, setSearchText] = useState("");
-    const [basketOpen, setBasketOpen] = useState(false);
+    const isShopPage =
+        location.pathname === "/shop";
 
-    /* ============================
-       SEARCH
-    ============================ */
+    const [searchText, setSearchText] =
+        useState("");
+
+    const [basketOpen, setBasketOpen] =
+        useState(false);
+
+    const [isScrolled, setIsScrolled] =
+        useState(false);
+
+    /* =========================================
+       HEADER SCROLL
+    ========================================= */
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(
+                window.scrollY > 60
+            );
+        };
+
+        handleScroll();
+
+        window.addEventListener(
+            "scroll",
+            handleScroll,
+            {
+                passive: true,
+            }
+        );
+
+        return () => {
+            window.removeEventListener(
+                "scroll",
+                handleScroll
+            );
+        };
+    }, []);
+
+    /* =========================================
+       RESET SCROLL STATE AFTER ROUTE CHANGE
+    ========================================= */
+
+    useEffect(() => {
+        setIsScrolled(
+            window.scrollY > 60
+        );
+    }, [location.pathname]);
+
+    /* =========================================
+       SHOP SEARCH SYNC
+    ========================================= */
 
     useEffect(() => {
         if (!isShopPage) {
             setSearchText("");
+            return;
         }
-    }, [isShopPage]);
 
-    const handleSearch = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        const params =
+            new URLSearchParams(
+                location.search
+            );
 
-        const value = searchText.trim();
+        const currentSearch =
+            params.get("search") ?? "";
+
+        setSearchText(currentSearch);
+    }, [
+        isShopPage,
+        location.search,
+    ]);
+
+    /* =========================================
+       SEARCH
+    ========================================= */
+
+    const handleSearch = (
+        event: FormEvent<HTMLFormElement>
+    ) => {
+        event.preventDefault();
+
+        const value =
+            searchText.trim();
 
         if (!value) {
             navigate("/shop");
             return;
         }
 
-        navigate(`/shop?search=${encodeURIComponent(value)}`);
+        navigate(
+            `/shop?search=${encodeURIComponent(
+                value
+            )}`
+        );
     };
 
-    /* ============================
+    /* =========================================
        BASKET
-    ============================ */
+    ========================================= */
 
     const handleBasketOpen = () => {
         setBasketOpen(true);
@@ -55,15 +133,39 @@ const Header = () => {
         setBasketOpen(false);
     };
 
+    /* =========================================
+       HEADER CLASS
+    ========================================= */
+
+    const headerClassName = [
+        "header",
+
+        isHomePage
+            ? "header-home"
+            : "header-inner",
+
+        isHomePage && isScrolled
+            ? "header-scrolled"
+            : "",
+    ]
+        .filter(Boolean)
+        .join(" ");
+
     return (
         <>
-            <header className="header">
+            <header
+                className={headerClassName}
+            >
                 <div className="header-container">
-                    {/* ======================
+                    {/* =================================
               LOGO
-          ====================== */}
+          ================================= */}
 
-                    <Link to="/" className="header-logo">
+                    <Link
+                        to="/"
+                        className="header-logo"
+                        aria-label="Furniro Home"
+                    >
                         <div className="header-logo-mark">
                             <span />
                             <span />
@@ -71,7 +173,9 @@ const Header = () => {
                         </div>
 
                         <div className="header-logo-info">
-                            <strong>FURNITUR</strong>
+                            <strong>
+                                FURNIRO
+                            </strong>
 
                             <small>
                                 YOUR FUTURE INTERIOR
@@ -79,9 +183,9 @@ const Header = () => {
                         </div>
                     </Link>
 
-                    {/* ======================
+                    {/* =================================
               SHOP SEARCH
-          ====================== */}
+          ================================= */}
 
                     {isShopPage && (
                         <form
@@ -91,11 +195,11 @@ const Header = () => {
                             <button
                                 type="submit"
                                 className="header-search-icon"
-                                aria-label="Search"
+                                aria-label="Search furniture"
                             >
                                 <svg
-                                    width="15"
-                                    height="15"
+                                    width="18"
+                                    height="18"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                 >
@@ -120,22 +224,26 @@ const Header = () => {
                                 type="text"
                                 placeholder="Search furniture"
                                 value={searchText}
-                                onChange={(e) =>
-                                    setSearchText(e.target.value)
+                                onChange={(event) =>
+                                    setSearchText(
+                                        event.target.value
+                                    )
                                 }
                             />
                         </form>
                     )}
 
-                    {/* ======================
+                    {/* =================================
               NAVIGATION
-          ====================== */}
+          ================================= */}
 
                     <nav className="header-menu">
                         <NavLink
                             to="/"
                             end
-                            className={({ isActive }) =>
+                            className={({
+                                isActive,
+                            }) =>
                                 isActive
                                     ? "header-nav-link active"
                                     : "header-nav-link"
@@ -146,7 +254,9 @@ const Header = () => {
 
                         <NavLink
                             to="/shop"
-                            className={({ isActive }) =>
+                            className={({
+                                isActive,
+                            }) =>
                                 isActive
                                     ? "header-nav-link active"
                                     : "header-nav-link"
@@ -155,11 +265,11 @@ const Header = () => {
                             Shop
                         </NavLink>
 
-                        {/* ORDER = CART PAGE */}
-
                         <NavLink
                             to="/cart"
-                            className={({ isActive }) =>
+                            className={({
+                                isActive,
+                            }) =>
                                 isActive
                                     ? "header-nav-link active"
                                     : "header-nav-link"
@@ -170,7 +280,9 @@ const Header = () => {
 
                         <NavLink
                             to="/mypage"
-                            className={({ isActive }) =>
+                            className={({
+                                isActive,
+                            }) =>
                                 isActive
                                     ? "header-nav-link active"
                                     : "header-nav-link"
@@ -181,7 +293,9 @@ const Header = () => {
 
                         <NavLink
                             to="/about"
-                            className={({ isActive }) =>
+                            className={({
+                                isActive,
+                            }) =>
                                 isActive
                                     ? "header-nav-link active"
                                     : "header-nav-link"
@@ -191,12 +305,12 @@ const Header = () => {
                         </NavLink>
                     </nav>
 
-                    {/* ======================
-              RIGHT SIDE
-          ====================== */}
+                    {/* =================================
+              RIGHT ACTIONS
+          ================================= */}
 
                     <div className="header-actions">
-                        {/* BASKET BUTTON */}
+                        {/* BASKET */}
 
                         <button
                             type="button"
@@ -205,15 +319,15 @@ const Header = () => {
                             aria-label="Open basket"
                         >
                             <svg
-                                width="21"
-                                height="21"
+                                width="22"
+                                height="22"
                                 viewBox="0 0 24 24"
                                 fill="none"
                             >
                                 <path
                                     d="M3 3H5L7.4 15H18L21 7H6"
                                     stroke="currentColor"
-                                    strokeWidth="1.7"
+                                    strokeWidth="1.6"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                 />
@@ -232,6 +346,8 @@ const Header = () => {
                                     fill="currentColor"
                                 />
                             </svg>
+
+                            {/* Keyinchalik BasketContext bilan real bo'ladi */}
 
                             <span className="header-basket-count">
                                 2
@@ -259,9 +375,9 @@ const Header = () => {
                 </div>
             </header>
 
-            {/* ======================
+            {/* =================================
           BASKET DRAWER
-      ====================== */}
+      ================================= */}
 
             <Basket
                 open={basketOpen}
