@@ -1,33 +1,49 @@
-import { NavLink, Route, Routes } from 'react-router';
-import './App.css'
-import HomePage from './app/screens/homePage';
-import ProductsPage from './app/screens/productsPage';
-import AboutUsPage from './app/screens/aboutUsPage';
-import { Header } from './app/components/header';
-
+import { Route, Routes } from "react-router";
+import Footer from "./app/components/footer";
+import Header from "./app/components/header";
+import HomePage from "./app/screens/homePage";
+import AboutUsPage from "./app/screens/aboutUsPage";
+import CartPage from "./app/screens/cartPage";
+import MyPage from "./app/screens/myPage";
+import ProductsPage from "./app/screens/productsPage";
+import ProductDetail from "./app/screens/productsPage/productDetail";
 function App() {
-
   return (
     <>
-
-      <nav>
-        <NavLink to="/" end>
-          Home
-        </NavLink>
-        <NavLink to="/product" end>
-          Products
-        </NavLink>
-        <NavLink to="/aboutus" end>About</NavLink>
-      </nav>
+      <Header />
 
       <Routes>
+        {/* HOME */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/product" element={<ProductsPage />} />
-        <Route path="/aboutus" element={<AboutUsPage />} />
+
+        {/* SHOP */}
+        <Route path="/shop" element={<ProductsPage />} />
+
+        {/* SINGLE PRODUCT - hozircha ProductsPage */}
+        <Route
+          path="/product/:productId"
+          element={<ProductDetail />}
+        />
+
+        {/* CART */}
+        <Route path="/cart" element={<CartPage />} />
+
+        {/* MY PAGE */}
+        <Route path="/mypage" element={<MyPage />} />
+
+        {/* ABOUT */}
+        <Route path="/about" element={<AboutUsPage />} />
+
+
+
+
+
+
       </Routes>
 
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,0 +1,443 @@
+.my-page {
+    width: 100%;
+    background: #ffffff;
+    color: #222222;
+}
+
+.mypage-container {
+    width: calc(100% - 60px);
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+/* ==============================
+   PAGE HEADER
+============================== */
+.mypage-header {
+    padding: 70px 0 55px;
+    text-align: center;
+    background: #f7f7f7;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.mypage-header span {
+    color: #999999;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.mypage-header h1 {
+    margin: 9px 0 10px;
+    font-size: 34px;
+    letter-spacing: 0.5px;
+}
+
+.mypage-header p {
+    color: #888888;
+    font-size: 11px;
+}
+
+/* ==============================
+   CONTENT
+============================== */
+.mypage-content {
+    padding: 70px 0 100px;
+}
+
+.mypage-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 55px;
+}
+
+/* ==============================
+   LEFT PROFILE
+============================== */
+.mypage-profile-card {
+    padding: 35px 25px;
+    text-align: center;
+    background: #fafafa;
+    border: 1px solid #eeeeee;
+}
+
+.mypage-avatar-wrapper {
+    width: 130px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.mypage-camera-button {
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    right: -3px;
+    bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #fafafa;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #222222;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.mypage-camera-button:hover {
+    background: #555555;
+}
+
+.mypage-profile-card h2 {
+    margin: 20px 0 7px;
+    font-size: 20px;
+}
+
+.mypage-member-status {
+    display: inline-block;
+    padding: 5px 9px;
+    color: #777777;
+    background: #eeeeee;
+    font-size: 7px;
+    letter-spacing: 1px;
+}
+
+.mypage-phone {
+    margin-top: 12px;
+    color: #777777;
+    font-size: 11px;
+}
+
+.mypage-remove-photo {
+    margin-top: 13px;
+    padding: 0;
+    color: #999999;
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.mypage-remove-photo:hover {
+    color: #d32f2f;
+}
+
+.mypage-image-note {
+    margin-top: 16px;
+    color: #aaaaaa;
+    font-size: 8px;
+    line-height: 1.6;
+}
+
+/* ==============================
+   LEFT MENU
+============================== */
+.mypage-account-menu {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eeeeee;
+}
+
+.mypage-account-menu button {
+    width: 100%;
+    padding: 16px 18px;
+    color: #777777;
+    background: #ffffff;
+    border: none;
+    border-bottom: 1px solid #eeeeee;
+    text-align: left;
+    font-size: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.mypage-account-menu button:last-child {
+    border-bottom: none;
+}
+
+.mypage-account-menu button:hover {
+    padding-left: 22px;
+    color: #222222;
+    background: #fafafa;
+}
+
+.mypage-account-menu button.active {
+    color: #ffffff;
+    background: #222222;
+    font-weight: 600;
+}
+
+/* ==============================
+   RIGHT
+============================== */
+.mypage-form-wrapper {
+    width: 100%;
+}
+
+.mypage-form-header {
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.mypage-form-header span {
+    color: #999999;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+}
+
+.mypage-form-header h2 {
+    margin: 7px 0;
+    font-size: 25px;
+}
+
+.mypage-form-header p {
+    color: #888888;
+    font-size: 10px;
+}
+
+.mypage-edit-button {
+    height: 40px;
+    padding: 0 20px;
+    color: #222222;
+    background: #ffffff;
+    border: 1px solid #222222;
+    font-size: 9px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.mypage-edit-button:hover {
+    color: #ffffff;
+    background: #222222;
+}
+
+/* ==============================
+   FORM
+============================== */
+.mypage-form {
+    padding: 40px 0 50px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 25px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.mypage-form-group {
+    width: 100%;
+}
+
+.mypage-form-group>label,
+.mypage-label-row label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555555;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.mypage-full-width {
+    grid-column: 1 / -1;
+}
+
+.mypage-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mypage-label-row span {
+    color: #aaaaaa;
+    font-size: 8px;
+}
+
+/* ==============================
+   FORM BUTTONS
+============================== */
+.mypage-form-actions {
+    grid-column: 1 / -1;
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.mypage-cancel-button,
+.mypage-save-button {
+    height: 43px;
+    padding: 0 27px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.mypage-cancel-button {
+    color: #222222;
+    background: #ffffff;
+    border: 1px solid #222222;
+}
+
+.mypage-cancel-button:hover {
+    background: #f5f5f5;
+}
+
+.mypage-save-button {
+    color: #ffffff;
+    background: #222222;
+    border: 1px solid #222222;
+}
+
+.mypage-save-button:hover {
+    color: #222222;
+    background: #ffffff;
+}
+
+/* ==============================
+   ACCOUNT INFO
+============================== */
+.mypage-account-info {
+    padding-top: 45px;
+}
+
+.mypage-info-title span {
+    color: #999999;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+}
+
+.mypage-info-title h3 {
+    margin-top: 7px;
+    font-size: 20px;
+}
+
+.mypage-details-grid {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid #eeeeee;
+}
+
+.mypage-details-grid>div {
+    min-height: 100px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid #eeeeee;
+}
+
+.mypage-details-grid>div:last-child {
+    border-right: none;
+}
+
+.mypage-details-grid span {
+    margin-bottom: 8px;
+    color: #999999;
+    font-size: 7px;
+    letter-spacing: 1px;
+}
+
+.mypage-details-grid strong {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ==============================
+   TABLET
+============================== */
+@media screen and (max-width: 900px) {
+    .mypage-layout {
+        grid-template-columns: 230px 1fr;
+        gap: 30px;
+    }
+
+    .mypage-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mypage-details-grid>div:nth-child(2) {
+        border-right: none;
+    }
+
+    .mypage-details-grid>div:nth-child(-n + 2) {
+        border-bottom: 1px solid #eeeeee;
+    }
+}
+
+/* ==============================
+   MOBILE
+============================== */
+@media screen and (max-width: 700px) {
+    .mypage-container {
+        width: calc(100% - 30px);
+    }
+
+    .mypage-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mypage-sidebar {
+        max-width: 400px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .mypage-form-header {
+        align-items: flex-start;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .mypage-form {
+        grid-template-columns: 1fr;
+    }
+
+    .mypage-full-width,
+    .mypage-form-actions {
+        grid-column: auto;
+    }
+
+    .mypage-form-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .mypage-header {
+        padding: 50px 0 40px;
+    }
+
+    .mypage-header h1 {
+        font-size: 27px;
+    }
+
+    .mypage-content {
+        padding: 50px 0 70px;
+    }
+
+    .mypage-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mypage-details-grid>div {
+        border-right: none;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .mypage-details-grid>div:last-child {
+        border-bottom: none;
+    }
+
+    .mypage-cancel-button,
+    .mypage-save-button {
+        flex: 1;
+        padding: 0 15px;
+    }
+}
