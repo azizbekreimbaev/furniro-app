@@ -1,13 +1,10 @@
-import { useMemo } from "react";
 import { Link } from "react-router";
 
 import ProductCard from "./ProductCard";
 import NewProductFeature from "./NewProductFeature";
+import { useAppSelector } from "../../hook";
+import { selectNewProducts } from "./homepageSlice";
 
-import {
-    newProductsData,
-    type HomeProduct,
-} from "./homepage.data";
 
 const NEW_PRODUCTS_LIMIT = 4;
 
@@ -30,13 +27,9 @@ const NewProducts = () => {
      * });
      */
 
-    const newProducts =
-        useMemo<HomeProduct[]>(() => {
-            return newProductsData.slice(
-                0,
-                NEW_PRODUCTS_LIMIT
-            );
-        }, []);
+    const newProductsData = useAppSelector(selectNewProducts);
+
+    const newProducts = newProductsData.slice(0, NEW_PRODUCTS_LIMIT);
 
     const featuredProduct =
         newProducts[0];
