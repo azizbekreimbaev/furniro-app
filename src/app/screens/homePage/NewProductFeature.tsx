@@ -1,11 +1,9 @@
 import { Link } from "react-router";
-
-import type {
-    HomeProduct,
-} from "./homepage.data";
+import type { Product } from "../../../libs/types/product";
+import { serverApi } from "../../../libs/config";
 
 interface NewProductFeatureProps {
-    product: HomeProduct;
+    product: Product;
 }
 
 const NewProductFeature = ({
@@ -18,7 +16,7 @@ const NewProductFeature = ({
                 className="home-new-feature-image"
             >
                 <img
-                    src={product.image}
+                    src={`${serverApi}/${product.productImages?.[0]}`}
                     alt={product.productName}
                 />
 
@@ -37,7 +35,7 @@ const NewProductFeature = ({
             <div className="home-new-feature-content">
                 <div>
                     <span className="home-new-feature-category">
-                        {product.category}
+                        {product.productCategory}
                     </span>
 
                     <Link
