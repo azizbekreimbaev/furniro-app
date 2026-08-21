@@ -1,9 +1,6 @@
 import { Link } from "react-router";
 
-import React from 'react'
-import type { RootState } from '../../store'
-import { useSelector, useDispatch } from 'react-redux'
-import { selectTrendingProducts, setTrendingProducts } from './homepageSlice'
+import { selectTrendingProducts } from './homepageSlice'
 
 
 import ProductCard from "./ProductCard";

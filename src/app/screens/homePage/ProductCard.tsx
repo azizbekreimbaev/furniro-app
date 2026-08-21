@@ -1,57 +1,44 @@
 import { Link } from "react-router";
+import type { Product } from "../../../libs/types/product";
+import { serverApi } from "../../../libs/config";
 
-import type {
-    HomeProduct,
-} from "./homepage.data";
 
 interface ProductCardProps {
-    product: HomeProduct;
+    product: Product;
 }
 
-const ProductCard = ({
-    product,
-}: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
+
     return (
         <article className="home-product-card">
-            {/* IMAGE */}
 
             <Link
                 to={`/product/${product._id}`}
                 className="home-product-card-image"
             >
                 <img
-                    src={product.image}
+                    src={`${serverApi}/${product.productImages?.[0]}`}
                     alt={product.productName}
                 />
 
                 <div className="home-product-card-overlay">
-                    <span>
-                        VIEW PRODUCT
-                    </span>
-
-                    <strong>
-                        →
-                    </strong>
+                    <span>VIEW PRODUCT</span>
+                    <strong>→</strong>
                 </div>
-
-                {product.isNew && (
-                    <span className="home-product-card-badge">
-                        NEW
-                    </span>
-                )}
             </Link>
 
-            {/* INFO */}
-
             <div className="home-product-card-content">
+
                 <div className="home-product-card-top">
+
                     <span className="home-product-category">
-                        {product.category}
+                        {product.productCategory}
                     </span>
 
                     <span className="home-product-views">
-                        {product.productViews.toLocaleString()} views
+                        {product.productViews?.toLocaleString()} views
                     </span>
+
                 </div>
 
                 <Link
@@ -71,6 +58,7 @@ const ProductCard = ({
                         }
                     )}
                 </strong>
+
             </div>
         </article>
     );

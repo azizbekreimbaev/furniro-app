@@ -23,7 +23,7 @@ class ProductService {
 
             const result = await axios.get(url)
             console.log("PRODUCTS", result)
-            return result.data
+            return result.data.result
 
         } catch (err) {
             console.log("getProducts", err)
