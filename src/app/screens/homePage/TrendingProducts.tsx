@@ -1,16 +1,19 @@
-import { useMemo } from "react";
 import { Link } from "react-router";
 
+import React from 'react'
+import type { RootState } from '../../store'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectTrendingProducts, setTrendingProducts } from './homepageSlice'
+
+
 import ProductCard from "./ProductCard";
+import { useAppSelector } from "../../hook";
 
-import {
-    trendingProductsData,
-    type HomeProduct,
-} from "./homepage.data";
-
-const TRENDING_LIMIT = 4;
 
 const TrendingProducts = () => {
+
+    const trendingProducts = useAppSelector(selectTrendingProducts)
+
     /*
      * Hozir local mock data.
      *
@@ -25,19 +28,10 @@ const TrendingProducts = () => {
      * const { products } = useProducts();
      */
 
-    const trendingProducts =
-        useMemo<HomeProduct[]>(() => {
-            return [...trendingProductsData]
-                .sort(
-                    (a, b) =>
-                        b.productViews -
-                        a.productViews
-                )
-                .slice(
-                    0,
-                    TRENDING_LIMIT
-                );
-        }, []);
+
+
+
+
 
     return (
         <section className="home-trending">
