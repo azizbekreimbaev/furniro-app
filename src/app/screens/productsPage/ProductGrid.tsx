@@ -1,14 +1,11 @@
+import type { Product } from "../../../libs/types/product";
 import ProductCard from "./ProductCard";
 
-import type {
-    ShopProduct,
-} from "./shop.data";
-
 interface ProductGridProps {
-    products: ShopProduct[];
+    products: Product[];
 
     onAddToCart: (
-        product: ShopProduct
+        product: Product
     ) => void;
 }
 

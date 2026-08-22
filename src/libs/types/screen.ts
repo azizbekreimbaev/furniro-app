@@ -15,3 +15,8 @@ export interface HomePageState {
     popularProducts: Product[],
     trendingProducts: Product[]
 }
+
+export interface ProductPageState {
+    product: Product | null;
+    products: Product[]
+}

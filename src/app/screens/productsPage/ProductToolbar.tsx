@@ -1,13 +1,42 @@
-import { useState } from "react";
+import {
+    useState,
+} from "react";
+
+import {
+    ProductCategory,
+    ProductMaterial,
+} from "../../../libs/enums/product.enum";
+
+
+type CategoryOption =
+    ProductCategory | "All";
+
 
 interface ProductToolbarProps {
-    categories: string[];
-    activeCategory: string;
-    totalProducts: number;
-    sortBy: string;
+    categories:
+    CategoryOption[];
+
+    activeCategory:
+    CategoryOption;
+
+    totalProducts:
+    number;
+
+    sortBy:
+    string;
 
     onCategoryChange: (
-        category: string
+        category: CategoryOption
+    ) => void;
+
+    onMaterialChange: (
+        material:
+            ProductMaterial |
+            undefined
+    ) => void;
+
+    onPriceChange: (
+        maxPrice: number
     ) => void;
 
     onSortChange: (
@@ -15,47 +44,61 @@ interface ProductToolbarProps {
     ) => void;
 }
 
+
+/* =========================================
+   MATERIALS
+========================================= */
+
 const materials = [
     {
-        name: "Bronze",
-        count: 8,
+        name: "FABRIC",
+        value:
+            ProductMaterial.FABRIC,
     },
+
     {
-        name: "Oak wood",
-        count: 12,
+        name: "GLASS",
+        value:
+            ProductMaterial.GLASS,
     },
+
     {
-        name: "Stainless metal",
-        count: 36,
+        name: "LEATHER",
+        value:
+            ProductMaterial.LEATHER,
     },
+
     {
-        name: "Titanium",
-        count: 4,
+        name: "METAL",
+        value:
+            ProductMaterial.METAL,
     },
+
     {
-        name: "Alloy",
-        count: 8,
+        name: "PLASTIC",
+        value:
+            ProductMaterial.PLASTIC,
     },
+
     {
-        name: "Ceramic",
-        count: 17,
+        name: "RATTAN",
+        value:
+            ProductMaterial.RATTAN,
+    },
+
+    {
+        name: "STONE",
+        value:
+            ProductMaterial.STONE,
+    },
+
+    {
+        name: "WOOD",
+        value:
+            ProductMaterial.WOOD,
     },
 ];
 
-const sizes = [
-    {
-        name: "S",
-        count: 8,
-    },
-    {
-        name: "M",
-        count: 12,
-    },
-    {
-        name: "L",
-        count: 34,
-    },
-];
 
 const ProductToolbar = ({
     categories,
@@ -63,81 +106,179 @@ const ProductToolbar = ({
     totalProducts,
     sortBy,
     onCategoryChange,
+    onMaterialChange,
     onSortChange,
 }: ProductToolbarProps) => {
-    const [categoryOpen, setCategoryOpen] =
+
+
+    /* =========================================
+       OPEN / CLOSE
+    ========================================= */
+
+    const [
+        categoryOpen,
+        setCategoryOpen,
+    ] =
         useState(true);
 
-    const [materialsOpen, setMaterialsOpen] =
+
+    const [
+        materialsOpen,
+        setMaterialsOpen,
+    ] =
         useState(true);
 
-    const [priceOpen, setPriceOpen] =
-        useState(true);
 
 
-    const [shippingOpen, setShippingOpen] =
-        useState(false);
 
-    const [allProductOpen, setAllProductOpen] =
-        useState(false);
 
-    const [selectedMaterial, setSelectedMaterial] =
-        useState("");
+    /* =========================================
+       MATERIAL STATE
+    ========================================= */
 
-    const [maxPrice, setMaxPrice] =
-        useState(2000);
+    const [
+        selectedMaterial,
+        setSelectedMaterial,
+    ] =
+        useState<
+            ProductMaterial |
+            undefined
+        >(
+            undefined
+        );
+
+
+    /* =========================================
+       PRICE STATE
+    ========================================= */
+
+
+
+    /* =========================================
+       CATEGORY LIST
+    ========================================= */
 
     const productCategories =
         categories.filter(
             (category) =>
-                category !== "All"
+                category !==
+                "All"
         );
 
+
+    /* =========================================
+       MATERIAL HANDLER
+    ========================================= */
+
+    const handleMaterialClick = (
+        material:
+            ProductMaterial
+    ) => {
+
+        const newMaterial =
+            selectedMaterial ===
+                material
+                ? undefined
+                : material;
+
+
+        setSelectedMaterial(
+            newMaterial
+        );
+
+
+        onMaterialChange(
+            newMaterial
+        );
+    };
+
+
+    /* =========================================
+       MATERIAL RESET
+    ========================================= */
+
+    const handleMaterialReset =
+        () => {
+
+            setSelectedMaterial(
+                undefined
+            );
+
+
+            onMaterialChange(
+                undefined
+            );
+        };
+
+
     return (
+
         <aside className="shop-sidebar">
+
+
             {/* =================================
                 CATEGORY
             ================================= */}
 
             <div className="shop-sidebar-heading">
+
                 <h2>
                     CATEGORY
                 </h2>
 
                 <span />
+
             </div>
 
+
             <div className="shop-filter-block">
+
                 <button
                     type="button"
                     className="shop-filter-title"
+
                     onClick={() =>
                         setCategoryOpen(
-                            (prev) => !prev
+                            (prev) =>
+                                !prev
                         )
                     }
                 >
+
                     <span>
                         FURNITURE
                     </span>
 
                     <strong>
-                        {categoryOpen
-                            ? "−"
-                            : "+"}
+                        {
+                            categoryOpen
+                                ? "−"
+                                : "+"
+                        }
                     </strong>
+
                 </button>
 
+
                 {categoryOpen && (
+
                     <div className="shop-filter-list">
+
+
+                        {/* ALL */}
+
                         <button
                             type="button"
+
                             className={
                                 activeCategory ===
                                     "All"
+
                                     ? "active"
+
                                     : ""
                             }
+
                             onClick={() =>
                                 onCategoryChange(
                                     "All"
@@ -147,315 +288,261 @@ const ProductToolbar = ({
                             All
                         </button>
 
+
+                        {/* CATEGORIES */}
+
                         {productCategories.map(
-                            (category) => (
+                            (
+                                category
+                            ) => (
+
                                 <button
                                     type="button"
-                                    key={category}
+
+                                    key={
+                                        category
+                                    }
+
                                     className={
                                         activeCategory ===
                                             category
+
                                             ? "active"
+
                                             : ""
                                     }
+
                                     onClick={() =>
                                         onCategoryChange(
                                             category
                                         )
                                     }
                                 >
-                                    {category}
+
+                                    {
+                                        category
+                                    }
+
                                 </button>
                             )
                         )}
+
                     </div>
                 )}
+
             </div>
 
-            {/* =================================
-                SHIPPING
-            ================================= */}
 
-            <div className="shop-filter-block">
-                <button
-                    type="button"
-                    className="shop-filter-title"
-                    onClick={() =>
-                        setShippingOpen(
-                            (prev) => !prev
-                        )
-                    }
-                >
-                    <span>
-                        SHIPPING
-                    </span>
 
-                    <strong>
-                        {shippingOpen
-                            ? "−"
-                            : "+"}
-                    </strong>
-                </button>
-
-                {shippingOpen && (
-                    <div className="shop-filter-list">
-                        <button type="button">
-                            Free shipping
-                        </button>
-
-                        <button type="button">
-                            Standard delivery
-                        </button>
-                    </div>
-                )}
-            </div>
-
-            {/* =================================
-                ALL PRODUCT
-            ================================= */}
-
-            <div className="shop-filter-block">
-                <button
-                    type="button"
-                    className="shop-filter-title"
-                    onClick={() =>
-                        setAllProductOpen(
-                            (prev) => !prev
-                        )
-                    }
-                >
-                    <span>
-                        ALL PRODUCT
-                    </span>
-
-                    <strong>
-                        {allProductOpen
-                            ? "−"
-                            : "+"}
-                    </strong>
-                </button>
-
-                {allProductOpen && (
-                    <div className="shop-filter-list">
-                        <button
-                            type="button"
-                            onClick={() =>
-                                onCategoryChange(
-                                    "All"
-                                )
-                            }
-                        >
-                            View all products
-                        </button>
-                    </div>
-                )}
-            </div>
 
             {/* =================================
                 SHOP BY
             ================================= */}
 
             <div className="shop-sidebar-heading shop-by-heading">
+
                 <h2>
                     SHOP BY
                 </h2>
 
                 <span />
+
             </div>
+
 
             {/* =================================
                 MATERIALS
             ================================= */}
 
             <div className="shop-filter-block">
+
                 <button
                     type="button"
                     className="shop-filter-title"
+
                     onClick={() =>
                         setMaterialsOpen(
-                            (prev) => !prev
+                            (prev) =>
+                                !prev
                         )
                     }
                 >
+
                     <span>
                         MATERIALS
                     </span>
 
                     <strong>
-                        {materialsOpen
-                            ? "−"
-                            : "+"}
+                        {
+                            materialsOpen
+                                ? "−"
+                                : "+"
+                        }
                     </strong>
+
                 </button>
 
+
                 {materialsOpen && (
+
                     <div className="shop-material-list">
+
+
+                        {/* MATERIALS */}
+
                         {materials.map(
-                            (material) => (
+                            (
+                                material
+                            ) => (
+
                                 <button
                                     type="button"
+
                                     key={
-                                        material.name
+                                        material.value
                                     }
+
                                     className={
                                         selectedMaterial ===
-                                            material.name
+                                            material.value
+
                                             ? "active"
+
                                             : ""
                                     }
+
                                     onClick={() =>
-                                        setSelectedMaterial(
-                                            (
-                                                current
-                                            ) =>
-                                                current ===
-                                                    material.name
-                                                    ? ""
-                                                    : material.name
+                                        handleMaterialClick(
+                                            material.value
                                         )
                                     }
                                 >
+
                                     <span>
                                         {
                                             material.name
                                         }
                                     </span>
 
-                                    <small>
-                                        (
-                                        {String(
-                                            material.count
-                                        ).padStart(
-                                            2,
-                                            "0"
-                                        )}
-                                        )
-                                    </small>
                                 </button>
                             )
                         )}
-                    </div>
-                )}
-            </div>
 
-            {/* =================================
-                PRICE
-            ================================= */}
 
-            <div className="shop-filter-block">
-                <button
-                    type="button"
-                    className="shop-filter-title"
-                    onClick={() =>
-                        setPriceOpen(
-                            (prev) => !prev
-                        )
-                    }
-                >
-                    <span>
-                        PRICE
-                    </span>
+                        {/* =========================
+                            RESET MATERIAL
+                        ========================= */}
 
-                    <strong>
-                        {priceOpen
-                            ? "−"
-                            : "+"}
-                    </strong>
-                </button>
-
-                {priceOpen && (
-                    <div className="shop-price-filter">
-                        <input
-                            type="range"
-                            min="0"
-                            max="5000"
-                            step="100"
-                            value={maxPrice}
-                            onChange={(event) =>
-                                setMaxPrice(
-                                    Number(
-                                        event
-                                            .target
-                                            .value
-                                    )
-                                )
-                            }
-                        />
-
-                        <div className="shop-price-actions">
-                            <div className="shop-price-value">
-                                $0 - $
-                                {maxPrice.toLocaleString()}
-                            </div>
+                        {selectedMaterial && (
 
                             <button
                                 type="button"
-                                className="shop-price-apply"
+
+                                className="shop-material-reset"
+
+                                onClick={
+                                    handleMaterialReset
+                                }
                             >
-                                Apply
+
+                                <span>
+                                    RESET
+                                </span>
+
+                                <strong>
+                                    ×
+                                </strong>
+
                             </button>
-                        </div>
+                        )}
+
                     </div>
                 )}
+
             </div>
 
+
+
             {/* =================================
-                SORT BY
+                SORT
             ================================= */}
 
             <div className="shop-filter-block">
+
                 <div className="shop-filter-title static">
+
                     <span>
                         SORT BY
                     </span>
+
                 </div>
+
 
                 <select
                     className="shop-sidebar-sort"
-                    value={sortBy}
-                    onChange={(event) =>
+
+                    value={
+                        sortBy
+                    }
+
+                    onChange={(
+                        event
+                    ) =>
                         onSortChange(
-                            event.target.value
+                            event
+                                .target
+                                .value
                         )
                     }
                 >
+
                     <option value="popular">
                         Most Popular
                     </option>
+
 
                     <option value="price-low">
                         Price: Low to High
                     </option>
 
-                    <option value="price-high">
-                        Price: High to Low
-                    </option>
+
+
 
                     <option value="newest">
                         New Arrivals
                     </option>
+
                 </select>
+
             </div>
 
 
-
             {/* =================================
-                RESULT INFO
+                RESULT
             ================================= */}
 
             <div className="shop-sidebar-result">
+
                 <span>
                     PRODUCTS FOUND
                 </span>
 
                 <strong>
-                    {String(
-                        totalProducts
-                    ).padStart(2, "0")}
+                    {
+                        String(
+                            totalProducts
+                        ).padStart(
+                            2,
+                            "0"
+                        )
+                    }
                 </strong>
+
             </div>
+
         </aside>
     );
 };
+
 
 export default ProductToolbar;

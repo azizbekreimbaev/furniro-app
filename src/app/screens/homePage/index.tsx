@@ -8,7 +8,7 @@ import VideoSection from "./VideoSection";
 import PopularProductsSlider from "./PopularProductSlider";
 import ProductService from "../../services/ProductService";
 import { useAppDispatch } from "../../hook";
-import { setNewProducts, setTrendingProducts } from "./homepageSlice";
+import { setNewProducts, setPopularProducts, setTrendingProducts } from "./homepageSlice";
 import { useEffect } from "react";
 
 const HomePage = () => {
@@ -40,6 +40,19 @@ const HomePage = () => {
             .then((data) => {
                 console.log("data passed")
                 dispatch(setTrendingProducts(data))
+
+            })
+            .catch((err) => console.log("error", err))
+
+
+        productService.getProducts({
+            page: 1,
+            limit: 15,
+            order: "productViews",
+        })
+            .then((data) => {
+                console.log("data passed")
+                dispatch(setPopularProducts(data))
 
             })
             .catch((err) => console.log("error", err))
