@@ -1,6 +1,5 @@
 import {
     useEffect,
-    useMemo,
     useState,
 } from "react";
 
@@ -8,10 +7,9 @@ import { Link } from "react-router";
 
 import PopularProductSlide from "./PopularProductSlide";
 
-import {
-    popularProductsData,
-    type HomeProduct,
-} from "./homepage.data";
+
+import { useAppSelector } from "../../hook";
+import { selectPopularProducts } from "./homepageSlice";
 
 const SLIDER_INTERVAL = 5000;
 
@@ -24,26 +22,11 @@ const PopularProductsSlider = () => {
     const [isPaused, setIsPaused] =
         useState(false);
 
-    /*
-     * Hozir mock data.
-     *
-     * Keyinchalik:
-     *
-     * const products = useSelector(
-     *   selectPopularProducts
-     * );
-     */
+    const popularProductsData = useAppSelector(selectPopularProducts)
 
-    const popularProducts =
-        useMemo<HomeProduct[]>(() => {
-            return [...popularProductsData]
-                .sort(
-                    (a, b) =>
-                        b.productViews -
-                        a.productViews
-                )
-                .slice(0, POPULAR_LIMIT);
-        }, []);
+    const popularProducts = [...popularProductsData]
+        .sort((a, b) => (b.productViews ?? 0) - (a.productViews ?? 0))
+        .slice(0, POPULAR_LIMIT);
 
     /* ============================
        AUTOPLAY

@@ -5,15 +5,14 @@ import {
 
 import { Link } from "react-router";
 
-import type {
-    ShopProduct,
-} from "./shop.data";
+import type { Product } from "../../../libs/types/product";
+import { serverApi } from "../../../libs/config";
 
 interface ProductCardProps {
-    product: ShopProduct;
+    product: Product;
 
     onAddToCart?: (
-        product: ShopProduct
+        product: Product
     ) => void;
 }
 
@@ -25,9 +24,7 @@ const ProductCard = ({
         useState(false);
 
     useEffect(() => {
-        if (!isAdded) {
-            return;
-        }
+        if (!isAdded) return;
 
         const timeoutId =
             window.setTimeout(() => {
@@ -43,17 +40,24 @@ const ProductCard = ({
 
     const handleAddToCart = () => {
         onAddToCart?.(product);
-
         setIsAdded(true);
     };
 
+    const isNew =
+        Date.now() -
+        new Date(
+            product.createdAt
+        ).getTime() <
+        7 * 24 * 60 * 60 * 1000;
+
+    const imagePath =
+        `${serverApi}/${product.productImages[0]}`;
+
     return (
         <article className="shop-product-card">
-            {/* =========================
-                IMAGE
-            ========================= */}
 
             <div className="shop-product-image-wrapper">
+
                 <Link
                     to={`/product/${product._id}`}
                     className="shop-product-image"
@@ -62,9 +66,7 @@ const ProductCard = ({
                     }
                 >
                     <img
-                        src={
-                            product.productImage
-                        }
+                        src={imagePath}
                         alt={
                             product.productName
                         }
@@ -79,30 +81,26 @@ const ProductCard = ({
                     </span>
                 </Link>
 
-                {/* BADGES */}
-
                 <div className="shop-product-badges">
-                    {product.isNew && (
+
+                    {isNew && (
                         <span className="shop-product-new">
                             NEW
                         </span>
                     )}
 
                     <span className="shop-product-views">
-                        {
-                            product.productViews
-                        }{" "}
+                        {product.productViews}{" "}
                         VIEWS
                     </span>
+
                 </div>
             </div>
 
-            {/* =========================
-                INFORMATION
-            ========================= */}
-
             <div className="shop-product-content">
+
                 <div className="shop-product-meta">
+
                     <span>
                         {
                             product.productCategory
@@ -112,6 +110,7 @@ const ProductCard = ({
                     <span>
                         FURNIRO
                     </span>
+
                 </div>
 
                 <Link
@@ -125,11 +124,12 @@ const ProductCard = ({
 
                 <p className="shop-product-description">
                     {
-                        product.productDescription
+                        product.productDesc
                     }
                 </p>
 
                 <div className="shop-product-bottom">
+
                     <strong className="shop-product-price">
                         $
                         {product.productPrice.toLocaleString(
@@ -140,8 +140,8 @@ const ProductCard = ({
                     <button
                         type="button"
                         className={`shop-add-cart ${isAdded
-                                ? "added"
-                                : ""
+                            ? "added"
+                            : ""
                             }`}
                         onClick={
                             handleAddToCart
@@ -160,6 +160,7 @@ const ProductCard = ({
                             </>
                         )}
                     </button>
+
                 </div>
             </div>
         </article>

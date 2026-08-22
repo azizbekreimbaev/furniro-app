@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 
-import type {
-    HomeProduct,
-} from "./homepage.data";
+
+import type { Product } from "../../../libs/types/product";
+import { serverApi } from "../../../libs/config";
 
 interface PopularProductSlideProps {
-    product: HomeProduct;
+    product: Product;
     position: number;
 }
 
@@ -24,7 +24,7 @@ const PopularProductSlide = ({
                 className="home-popular-image"
             >
                 <img
-                    src={product.image}
+                    src={`${serverApi}/${product.productImages?.[0]}`}
                     alt={product.productName}
                 />
 
@@ -57,11 +57,11 @@ const PopularProductSlide = ({
                 <div className="home-popular-content-top">
                     <div>
                         <span className="home-popular-category">
-                            {product.category}
+                            {product.productCategory}
                         </span>
 
                         <span className="home-popular-views">
-                            {product.productViews.toLocaleString()}{" "}
+                            {product.productViews?.toLocaleString()}{" "}
                             views
                         </span>
                     </div>
