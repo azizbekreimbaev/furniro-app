@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import {
     Box,
@@ -12,116 +12,44 @@ import {
 
 import { Link } from "react-router";
 
-import heroImage from "../../../public/images/banner.png";
+import { serverApi } from "../../libs/config";
+import { useGlobals } from "../hooks/useGlobals";
 
 interface BasketProps {
     open: boolean;
     onClose: () => void;
 }
 
-interface BasketItem {
-    _id: string;
-    productName: string;
-    productPrice: number;
-    quantity: number;
-    image: string;
-}
-
-const initialBasketItems: BasketItem[] = [
-    {
-        _id: "1",
-        productName: "Urban Luxe Arm Chair",
-        productPrice: 2688.15,
-        quantity: 1,
-        image: heroImage,
-    },
-    {
-        _id: "2",
-        productName: "Modern Black Hanging Light",
-        productPrice: 1595.6,
-        quantity: 1,
-        image: heroImage,
-    },
-];
-
 const Basket = ({
     open,
     onClose,
 }: BasketProps) => {
-    const [basketItems, setBasketItems] =
-        useState<BasketItem[]>(initialBasketItems);
-
     /* ============================
-       PLUS
+       GLOBAL BASKET
     ============================ */
 
-    const handleIncrease = (productId: string) => {
-        setBasketItems((prev) =>
-            prev.map((item) =>
-                item._id === productId
-                    ? {
-                        ...item,
-                        quantity: item.quantity + 1,
-                    }
-                    : item
-            )
-        );
-    };
+    const { basket } = useGlobals();
 
-    /* ============================
-       MINUS
-    ============================ */
-
-    const handleDecrease = (productId: string) => {
-        setBasketItems((prev) =>
-            prev.map((item) => {
-                if (item._id !== productId) {
-                    return item;
-                }
-
-                return {
-                    ...item,
-                    quantity:
-                        item.quantity > 1
-                            ? item.quantity - 1
-                            : 1,
-                };
-            })
-        );
-    };
-
-    /* ============================
-       REMOVE ONE PRODUCT
-    ============================ */
-
-    const handleRemove = (productId: string) => {
-        setBasketItems((prev) =>
-            prev.filter(
-                (item) => item._id !== productId
-            )
-        );
-    };
-
-    /* ============================
-       CLEAR BASKET
-    ============================ */
-
-    const handleClearBasket = () => {
-        setBasketItems([]);
-    };
+    const {
+        cartItems,
+        onAdd,
+        onRemove,
+        onDelete,
+        onDeleteAll,
+    } = basket;
 
     /* ============================
        SUBTOTAL
     ============================ */
 
     const subtotal = useMemo(() => {
-        return basketItems.reduce(
+        return cartItems.reduce(
             (total, item) =>
                 total +
-                item.productPrice * item.quantity,
+                item.price * item.quantity,
             0
         );
-    }, [basketItems]);
+    }, [cartItems]);
 
     return (
         <Drawer
@@ -147,8 +75,8 @@ const Basket = ({
                 }}
             >
                 {/* ============================
-            HEADER
-        ============================ */}
+                    HEADER
+                ============================ */}
 
                 <Box
                     sx={{
@@ -156,7 +84,8 @@ const Basket = ({
                         py: 2.5,
 
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent:
+                            "space-between",
                         alignItems: "center",
                     }}
                 >
@@ -177,18 +106,20 @@ const Basket = ({
                                 color: "#999",
                             }}
                         >
-                            {basketItems.length} products
+                            {cartItems.length}{" "}
+                            products
                         </Typography>
                     </Box>
 
-                    {/* CLOSE / CANCEL */}
+                    {/* CLOSE */}
 
                     <IconButton
                         onClick={onClose}
                         sx={{
                             width: 38,
                             height: 38,
-                            border: "1px solid #ddd",
+                            border:
+                                "1px solid #ddd",
                         }}
                     >
                         ✕
@@ -198,8 +129,8 @@ const Basket = ({
                 <Divider />
 
                 {/* ============================
-            PRODUCTS
-        ============================ */}
+                    PRODUCTS
+                ============================ */}
 
                 <Box
                     sx={{
@@ -208,15 +139,24 @@ const Basket = ({
                         px: 3,
                     }}
                 >
-                    {basketItems.length === 0 ? (
+                    {cartItems.length === 0 ? (
+                        /* ============================
+                           EMPTY BASKET
+                        ============================ */
+
                         <Box
                             sx={{
                                 minHeight: 300,
 
                                 display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
+                                flexDirection:
+                                    "column",
+
+                                justifyContent:
+                                    "center",
+
+                                alignItems:
+                                    "center",
                             }}
                         >
                             <Typography
@@ -225,7 +165,8 @@ const Basket = ({
                                     fontWeight: 600,
                                 }}
                             >
-                                Your basket is empty
+                                Your basket is
+                                empty
                             </Typography>
 
                             <Typography
@@ -237,7 +178,8 @@ const Basket = ({
                                     fontSize: 11,
                                 }}
                             >
-                                Add some furniture to your basket.
+                                Add some furniture
+                                to your basket.
                             </Typography>
 
                             <Button
@@ -247,7 +189,8 @@ const Basket = ({
                                 variant="contained"
                                 sx={{
                                     borderRadius: 0,
-                                    background: "#222",
+                                    background:
+                                        "#222",
 
                                     px: 4,
                                     py: 1.3,
@@ -255,7 +198,8 @@ const Basket = ({
                                     fontSize: 10,
 
                                     "&:hover": {
-                                        background: "#000",
+                                        background:
+                                            "#000",
                                     },
                                 }}
                             >
@@ -263,221 +207,161 @@ const Basket = ({
                             </Button>
                         </Box>
                     ) : (
-                        basketItems.map((item) => (
-                            <Box
-                                key={item._id}
-                                sx={{
-                                    py: 2.5,
+                        /* ============================
+                           CART ITEMS
+                        ============================ */
 
-                                    borderBottom:
-                                        "1px solid #eeeeee",
-                                }}
-                            >
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
+                        cartItems.map(
+                            (item) => (
+                                <Box
+                                    key={
+                                        item._id
+                                    }
+                                    sx={{
+                                        py: 2.5,
+
+                                        borderBottom:
+                                            "1px solid #eeeeee",
+                                    }}
                                 >
-                                    {/* IMAGE */}
-
-                                    <Box
-                                        component={Link}
-                                        to={`/product/${item._id}`}
-                                        onClick={onClose}
-                                        sx={{
-                                            width: 95,
-                                            height: 95,
-
-                                            flexShrink: 0,
-
-                                            background: "#f5f5f5",
-
-                                            overflow: "hidden",
-                                        }}
+                                    <Stack
+                                        direction="row"
+                                        spacing={2}
                                     >
+                                        {/* IMAGE */}
+
                                         <Box
-                                            component="img"
-                                            src={item.image}
-                                            alt={item.productName}
+                                            component={
+                                                Link
+                                            }
+                                            to={`/product/${item._id}`}
+                                            onClick={
+                                                onClose
+                                            }
                                             sx={{
-                                                width: "100%",
-                                                height: "100%",
-                                                objectFit: "cover",
-                                            }}
-                                        />
-                                    </Box>
+                                                width: 95,
+                                                height: 95,
 
-                                    {/* INFO */}
+                                                flexShrink: 0,
 
-                                    <Box
-                                        sx={{
-                                            width: "100%",
-                                        }}
-                                    >
-                                        <Stack
-                                            direction="row"
-                                            sx={{
-                                                justifyContent: "space-between",
-                                                alignItems: "flex-start",
+                                                background:
+                                                    "#f5f5f5",
+
+                                                overflow:
+                                                    "hidden",
                                             }}
                                         >
-                                            <Box>
-                                                <Typography
-                                                    component={Link}
-                                                    to={`/product/${item._id}`}
-                                                    onClick={onClose}
-                                                    sx={{
-                                                        color: "#222",
-                                                        fontSize: 13,
-                                                        fontWeight: 600,
-
-                                                        textDecoration: "none",
-                                                    }}
-                                                >
-                                                    {item.productName}
-                                                </Typography>
-
-                                                <Typography
-                                                    sx={{
-                                                        mt: 0.7,
-
-                                                        color: "#999",
-
-                                                        fontSize: 10,
-                                                    }}
-                                                >
-                                                    Furniture
-                                                </Typography>
-                                            </Box>
-
-                                            {/* REMOVE */}
-
-                                            <IconButton
-                                                onClick={() =>
-                                                    handleRemove(item._id)
+                                            <Box
+                                                component="img"
+                                                src={`${serverApi}/${item.image}`}
+                                                alt={
+                                                    item.name
                                                 }
                                                 sx={{
-                                                    width: 28,
-                                                    height: 28,
-
-                                                    color: "#999",
-
-                                                    fontSize: 15,
-
-                                                    "&:hover": {
-                                                        color: "#d32f2f",
-                                                    },
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    objectFit:
+                                                        "cover",
                                                 }}
-                                            >
-                                                ✕
-                                            </IconButton>
-                                        </Stack>
+                                            />
+                                        </Box>
 
-                                        <Typography
+                                        {/* INFO */}
+
+                                        <Box
                                             sx={{
-                                                mt: 1,
-
-                                                fontSize: 12,
-                                                fontWeight: 600,
-                                            }}
-                                        >
-                                            $
-                                            {item.productPrice.toLocaleString(
-                                                "en-US",
-                                                {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                }
-                                            )}
-                                        </Typography>
-
-                                        {/* QUANTITY */}
-
-                                        <Stack
-                                            direction="row"
-                                            sx={{
-                                                justifyContent: "space-between",
-                                                alignItems: "flex-start",
-                                                mt: 1.5
+                                                width: "100%",
                                             }}
                                         >
                                             <Stack
                                                 direction="row"
                                                 sx={{
-                                                    alignItems: "center",
-                                                    border:
-                                                        "1px solid #dddddd",
+                                                    justifyContent:
+                                                        "space-between",
+
+                                                    alignItems:
+                                                        "flex-start",
                                                 }}
                                             >
-                                                {/* MINUS */}
+                                                <Box>
+                                                    {/* NAME */}
 
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleDecrease(item._id)
-                                                    }
-                                                    style={{
-                                                        width: "32px",
-                                                        height: "30px",
+                                                    <Typography
+                                                        component={
+                                                            Link
+                                                        }
+                                                        to={`/product/${item._id}`}
+                                                        onClick={
+                                                            onClose
+                                                        }
+                                                        sx={{
+                                                            color: "#222",
 
-                                                        border: "none",
+                                                            fontSize: 13,
 
-                                                        background:
-                                                            "transparent",
+                                                            fontWeight: 600,
 
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    −
-                                                </button>
+                                                            textDecoration:
+                                                                "none",
+                                                        }}
+                                                    >
+                                                        {
+                                                            item.name
+                                                        }
+                                                    </Typography>
 
-                                                <Box
-                                                    sx={{
-                                                        width: 35,
+                                                    <Typography
+                                                        sx={{
+                                                            mt: 0.7,
 
-                                                        textAlign: "center",
+                                                            color: "#999",
 
-                                                        fontSize: 11,
-                                                    }}
-                                                >
-                                                    {item.quantity}
+                                                            fontSize: 10,
+                                                        }}
+                                                    >
+                                                        Furniture
+                                                    </Typography>
                                                 </Box>
 
-                                                {/* PLUS */}
+                                                {/* DELETE PRODUCT */}
 
-                                                <button
-                                                    type="button"
+                                                <IconButton
                                                     onClick={() =>
-                                                        handleIncrease(item._id)
+                                                        onDelete(
+                                                            item
+                                                        )
                                                     }
-                                                    style={{
-                                                        width: "32px",
-                                                        height: "30px",
+                                                    sx={{
+                                                        width: 28,
+                                                        height: 28,
 
-                                                        border: "none",
+                                                        color: "#999",
 
-                                                        background:
-                                                            "transparent",
+                                                        fontSize: 15,
 
-                                                        cursor: "pointer",
+                                                        "&:hover":
+                                                        {
+                                                            color: "#d32f2f",
+                                                        },
                                                     }}
                                                 >
-                                                    +
-                                                </button>
+                                                    ✕
+                                                </IconButton>
                                             </Stack>
 
-                                            {/* ITEM TOTAL */}
+                                            {/* PRICE */}
 
                                             <Typography
                                                 sx={{
+                                                    mt: 1,
+
                                                     fontSize: 12,
-                                                    fontWeight: 700,
+
+                                                    fontWeight: 600,
                                                 }}
                                             >
                                                 $
-                                                {(
-                                                    item.productPrice *
-                                                    item.quantity
-                                                ).toLocaleString(
+                                                {item.price.toLocaleString(
                                                     "en-US",
                                                     {
                                                         minimumFractionDigits: 2,
@@ -485,49 +369,173 @@ const Basket = ({
                                                     }
                                                 )}
                                             </Typography>
-                                        </Stack>
-                                    </Box>
-                                </Stack>
 
-                                {/* REMOVE TEXT */}
+                                            {/* ============================
+                                                QUANTITY
+                                            ============================ */}
 
-                                <Button
-                                    onClick={() =>
-                                        handleRemove(item._id)
-                                    }
-                                    sx={{
-                                        mt: 1,
+                                            <Stack
+                                                direction="row"
+                                                sx={{
+                                                    justifyContent:
+                                                        "space-between",
 
-                                        p: 0,
+                                                    alignItems:
+                                                        "flex-start",
 
-                                        minWidth: "auto",
+                                                    mt: 1.5,
+                                                }}
+                                            >
+                                                <Stack
+                                                    direction="row"
+                                                    sx={{
+                                                        alignItems:
+                                                            "center",
 
-                                        color: "#999",
+                                                        border:
+                                                            "1px solid #dddddd",
+                                                    }}
+                                                >
+                                                    {/* MINUS */}
 
-                                        fontSize: 9,
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            onRemove(
+                                                                item
+                                                            )
+                                                        }
+                                                        style={{
+                                                            width: "32px",
 
-                                        textTransform: "none",
+                                                            height: "30px",
 
-                                        textDecoration: "underline",
+                                                            border: "none",
 
-                                        "&:hover": {
-                                            color: "#222",
-                                            background: "transparent",
-                                        },
-                                    }}
-                                >
-                                    Remove
-                                </Button>
-                            </Box>
-                        ))
+                                                            background:
+                                                                "transparent",
+
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        −
+                                                    </button>
+
+                                                    {/* QUANTITY NUMBER */}
+
+                                                    <Box
+                                                        sx={{
+                                                            width: 35,
+
+                                                            textAlign:
+                                                                "center",
+
+                                                            fontSize: 11,
+                                                        }}
+                                                    >
+                                                        {
+                                                            item.quantity
+                                                        }
+                                                    </Box>
+
+                                                    {/* PLUS */}
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            onAdd(
+                                                                item
+                                                            )
+                                                        }
+                                                        style={{
+                                                            width: "32px",
+
+                                                            height: "30px",
+
+                                                            border: "none",
+
+                                                            background:
+                                                                "transparent",
+
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </Stack>
+
+                                                {/* ITEM TOTAL */}
+
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: 12,
+
+                                                        fontWeight: 700,
+                                                    }}
+                                                >
+                                                    $
+                                                    {(
+                                                        item.price *
+                                                        item.quantity
+                                                    ).toLocaleString(
+                                                        "en-US",
+                                                        {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2,
+                                                        }
+                                                    )}
+                                                </Typography>
+                                            </Stack>
+                                        </Box>
+                                    </Stack>
+
+                                    {/* REMOVE TEXT */}
+
+                                    <Button
+                                        onClick={() =>
+                                            onDelete(
+                                                item
+                                            )
+                                        }
+                                        sx={{
+                                            mt: 1,
+
+                                            p: 0,
+
+                                            minWidth:
+                                                "auto",
+
+                                            color: "#999",
+
+                                            fontSize: 9,
+
+                                            textTransform:
+                                                "none",
+
+                                            textDecoration:
+                                                "underline",
+
+                                            "&:hover": {
+                                                color: "#222",
+
+                                                background:
+                                                    "transparent",
+                                            },
+                                        }}
+                                    >
+                                        Remove
+                                    </Button>
+                                </Box>
+                            )
+                        )
                     )}
                 </Box>
 
                 {/* ============================
-            BOTTOM
-        ============================ */}
+                    BOTTOM
+                ============================ */}
 
-                {basketItems.length > 0 && (
+                {cartItems.length > 0 && (
                     <>
                         <Divider />
 
@@ -541,13 +549,17 @@ const Basket = ({
                             <Stack
                                 direction="row"
                                 sx={{
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
+                                    justifyContent:
+                                        "space-between",
+
+                                    alignItems:
+                                        "center",
                                 }}
                             >
                                 <Typography
                                     sx={{
                                         fontSize: 12,
+
                                         color: "#777",
                                     }}
                                 >
@@ -557,6 +569,7 @@ const Basket = ({
                                 <Typography
                                     sx={{
                                         fontSize: 18,
+
                                         fontWeight: 700,
                                     }}
                                 >
@@ -565,6 +578,7 @@ const Basket = ({
                                         "en-US",
                                         {
                                             minimumFractionDigits: 2,
+
                                             maximumFractionDigits: 2,
                                         }
                                     )}
@@ -580,11 +594,14 @@ const Basket = ({
                                     fontSize: 9,
                                 }}
                             >
-                                Shipping and taxes will be
-                                calculated at checkout.
+                                Shipping and taxes
+                                will be calculated at
+                                checkout.
                             </Typography>
 
-                            {/* ORDER PAGE */}
+                            {/* ============================
+                                VIEW ORDER
+                            ============================ */}
 
                             <Button
                                 fullWidth
@@ -599,22 +616,28 @@ const Basket = ({
                                     borderRadius: 0,
 
                                     color: "#fff",
-                                    background: "#222",
+
+                                    background:
+                                        "#222",
 
                                     fontSize: 10,
+
                                     fontWeight: 600,
 
                                     letterSpacing: 1,
 
                                     "&:hover": {
-                                        background: "#000",
+                                        background:
+                                            "#000",
                                     },
                                 }}
                             >
                                 VIEW ORDER
                             </Button>
 
-                            {/* CONTINUE SHOPPING */}
+                            {/* ============================
+                                CONTINUE SHOPPING
+                            ============================ */}
 
                             <Button
                                 fullWidth
@@ -629,25 +652,33 @@ const Basket = ({
                                     borderRadius: 0,
 
                                     color: "#222",
-                                    background: "#fff",
 
-                                    border: "1px solid #222",
+                                    background:
+                                        "#fff",
+
+                                    border:
+                                        "1px solid #222",
 
                                     fontSize: 10,
 
                                     "&:hover": {
-                                        background: "#f5f5f5",
+                                        background:
+                                            "#f5f5f5",
                                     },
                                 }}
                             >
                                 CONTINUE SHOPPING
                             </Button>
 
-                            {/* CLEAR */}
+                            {/* ============================
+                                CLEAR BASKET
+                            ============================ */}
 
                             <Button
                                 fullWidth
-                                onClick={handleClearBasket}
+                                onClick={
+                                    onDeleteAll
+                                }
                                 sx={{
                                     mt: 1,
 
@@ -655,11 +686,14 @@ const Basket = ({
 
                                     fontSize: 9,
 
-                                    textTransform: "none",
+                                    textTransform:
+                                        "none",
 
                                     "&:hover": {
                                         color: "#d32f2f",
-                                        background: "transparent",
+
+                                        background:
+                                            "transparent",
                                     },
                                 }}
                             >

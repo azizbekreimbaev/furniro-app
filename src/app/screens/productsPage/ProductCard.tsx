@@ -7,19 +7,18 @@ import { Link } from "react-router";
 
 import type { Product } from "../../../libs/types/product";
 import { serverApi } from "../../../libs/config";
+import { useGlobals } from "../../hooks/useGlobals";
 
 interface ProductCardProps {
     product: Product;
-
-    onAddToCart?: (
-        product: Product
-    ) => void;
 }
 
 const ProductCard = ({
     product,
-    onAddToCart,
 }: ProductCardProps) => {
+
+    const { basket } = useGlobals();
+
     const [isAdded, setIsAdded] =
         useState(false);
 
@@ -32,22 +31,28 @@ const ProductCard = ({
             }, 1600);
 
         return () => {
-            window.clearTimeout(
-                timeoutId
-            );
+            window.clearTimeout(timeoutId);
         };
     }, [isAdded]);
 
+
     const handleAddToCart = () => {
-        onAddToCart?.(product);
+
+        basket.onAdd({
+            _id: product._id,
+            quantity: 1,
+            name: product.productName,
+            price: product.productPrice,
+            image: product.productImages[0],
+        });
+
         setIsAdded(true);
     };
 
+
     const isNew =
         Date.now() -
-        new Date(
-            product.createdAt
-        ).getTime() <
+        new Date(product.createdAt).getTime() <
         7 * 24 * 60 * 60 * 1000;
 
     const imagePath =
@@ -61,15 +66,11 @@ const ProductCard = ({
                 <Link
                     to={`/product/${product._id}`}
                     className="shop-product-image"
-                    aria-label={
-                        product.productName
-                    }
+                    aria-label={product.productName}
                 >
                     <img
                         src={imagePath}
-                        alt={
-                            product.productName
-                        }
+                        alt={product.productName}
                         loading="lazy"
                     />
 
@@ -90,8 +91,7 @@ const ProductCard = ({
                     )}
 
                     <span className="shop-product-views">
-                        {product.productViews}{" "}
-                        VIEWS
+                        {product.productViews} VIEWS
                     </span>
 
                 </div>
@@ -102,9 +102,7 @@ const ProductCard = ({
                 <div className="shop-product-meta">
 
                     <span>
-                        {
-                            product.productCategory
-                        }
+                        {product.productCategory}
                     </span>
 
                     <span>
@@ -117,15 +115,11 @@ const ProductCard = ({
                     to={`/product/${product._id}`}
                     className="shop-product-name"
                 >
-                    {
-                        product.productName
-                    }
+                    {product.productName}
                 </Link>
 
                 <p className="shop-product-description">
-                    {
-                        product.productDesc
-                    }
+                    {product.productDesc}
                 </p>
 
                 <div className="shop-product-bottom">
@@ -139,13 +133,9 @@ const ProductCard = ({
 
                     <button
                         type="button"
-                        className={`shop-add-cart ${isAdded
-                            ? "added"
-                            : ""
+                        className={`shop-add-cart ${isAdded ? "added" : ""
                             }`}
-                        onClick={
-                            handleAddToCart
-                        }
+                        onClick={handleAddToCart}
                         disabled={isAdded}
                     >
                         {isAdded ? (

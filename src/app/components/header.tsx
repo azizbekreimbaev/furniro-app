@@ -15,15 +15,46 @@ import Basket from "./basket";
 
 import "../css/header.css";
 
+import { useGlobals } from "../hooks/useGlobals";
+
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
+
+    /* =========================================
+       GLOBAL BASKET
+    ========================================= */
+
+    const { basket } = useGlobals();
+
+    /*
+     * Savatdagi umumiy quantity.
+     *
+     * Masalan:
+     * Chair quantity = 2
+     * Table quantity = 3
+     *
+     * basketCount = 5
+     */
+    const basketCount = basket.cartItems.reduce(
+        (total, item) =>
+            total + item.quantity,
+        0
+    );
+
+    /* =========================================
+       PAGE CHECK
+    ========================================= */
 
     const isHomePage =
         location.pathname === "/";
 
     const isShopPage =
         location.pathname === "/shop";
+
+    /* =========================================
+       STATES
+    ========================================= */
 
     const [searchText, setSearchText] =
         useState("");
@@ -92,6 +123,7 @@ const Header = () => {
             params.get("search") ?? "";
 
         setSearchText(currentSearch);
+
     }, [
         isShopPage,
         location.search,
@@ -154,12 +186,15 @@ const Header = () => {
     return (
         <>
             <header
-                className={headerClassName}
+                className={
+                    headerClassName
+                }
             >
                 <div className="header-container">
+
                     {/* =================================
-              LOGO
-          ================================= */}
+                        LOGO
+                    ================================= */}
 
                     <Link
                         to="/"
@@ -184,13 +219,15 @@ const Header = () => {
                     </Link>
 
                     {/* =================================
-              SHOP SEARCH
-          ================================= */}
+                        SHOP SEARCH
+                    ================================= */}
 
                     {isShopPage && (
                         <form
                             className="header-search"
-                            onSubmit={handleSearch}
+                            onSubmit={
+                                handleSearch
+                            }
                         >
                             <button
                                 type="submit"
@@ -223,10 +260,16 @@ const Header = () => {
                             <input
                                 type="text"
                                 placeholder="Search furniture"
-                                value={searchText}
-                                onChange={(event) =>
+                                value={
+                                    searchText
+                                }
+                                onChange={(
+                                    event
+                                ) =>
                                     setSearchText(
-                                        event.target.value
+                                        event
+                                            .target
+                                            .value
                                     )
                                 }
                             />
@@ -234,10 +277,11 @@ const Header = () => {
                     )}
 
                     {/* =================================
-              NAVIGATION
-          ================================= */}
+                        NAVIGATION
+                    ================================= */}
 
                     <nav className="header-menu">
+
                         <NavLink
                             to="/"
                             end
@@ -303,19 +347,25 @@ const Header = () => {
                         >
                             About Us
                         </NavLink>
+
                     </nav>
 
                     {/* =================================
-              RIGHT ACTIONS
-          ================================= */}
+                        RIGHT ACTIONS
+                    ================================= */}
 
                     <div className="header-actions">
-                        {/* BASKET */}
+
+                        {/* =================================
+                            BASKET
+                        ================================= */}
 
                         <button
                             type="button"
                             className="header-basket-button"
-                            onClick={handleBasketOpen}
+                            onClick={
+                                handleBasketOpen
+                            }
                             aria-label="Open basket"
                         >
                             <svg
@@ -347,14 +397,21 @@ const Header = () => {
                                 />
                             </svg>
 
-                            {/* Keyinchalik BasketContext bilan real bo'ladi */}
+                            {/* REAL BASKET COUNT */}
 
-                            <span className="header-basket-count">
-                                2
-                            </span>
+                            {basketCount > 0 && (
+                                <span className="header-basket-count">
+                                    {
+                                        basketCount
+                                    }
+                                </span>
+                            )}
+
                         </button>
 
-                        {/* LOGIN */}
+                        {/* =================================
+                            LOGIN
+                        ================================= */}
 
                         <button
                             type="button"
@@ -363,7 +420,9 @@ const Header = () => {
                             Login
                         </button>
 
-                        {/* SIGN UP */}
+                        {/* =================================
+                            SIGN UP
+                        ================================= */}
 
                         <button
                             type="button"
@@ -371,17 +430,20 @@ const Header = () => {
                         >
                             Sign Up
                         </button>
+
                     </div>
                 </div>
             </header>
 
             {/* =================================
-          BASKET DRAWER
-      ================================= */}
+                BASKET DRAWER
+            ================================= */}
 
             <Basket
                 open={basketOpen}
-                onClose={handleBasketClose}
+                onClose={
+                    handleBasketClose
+                }
             />
         </>
     );
