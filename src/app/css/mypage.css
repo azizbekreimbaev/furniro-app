@@ -707,3 +707,36 @@
         font-size: 12px;
     }
 }
+
+.mypage-member-name {
+    margin: 22px 0 0;
+    color: #292722;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.mypage-phone {
+    margin: 14px 0 0;
+    color: #5f584f;
+    font-size: 13px;
+    text-align: center;
+}
+
+.mypage-description {
+    margin: 14px auto 0;
+    max-width: 220px;
+    color: #81776b;
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.mypage-profile-address {
+    margin: 10px auto 0;
+    max-width: 220px;
+    color: #9a8f82;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+}

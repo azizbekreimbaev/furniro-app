@@ -1,61 +1,224 @@
-/** SweetAlertHandling **/
+import axios from "axios";
 import Swal from "sweetalert2";
-import { Messages } from "./config";
 
-export const sweetErrorHandling = async (err: any) => {
-  const error = err.response?.data ?? err;
-  const message = error?.message ?? Messages.error1;
-  await Swal.fire({
-    icon: "error",
-    text: message,
-    showConfirmButton: false,
-  });
-};
 
-export const sweetTopSuccessAlert = async (
-  msg: string,
-  duration: number = 2000
-) => {
-  await Swal.fire({
-    position: "top-end",
-    icon: "success",
-    title: msg,
-    showConfirmButton: false,
-    timer: duration,
-  });
-};
+/* =====================================================
+   GET ERROR MESSAGE
+===================================================== */
 
-export const sweetTopSmallSuccessAlert = async (
-  msg: string,
-  duration: number = 2000
-) => {
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: duration,
-    timerProgressBar: true,
-  });
+const getErrorMessage = (
+  err: unknown,
+): string => {
 
-  Toast.fire({
-    icon: "success",
-    title: msg,
-  }).then();
-};
+  /* ==============================
+     AXIOS ERROR
+  ============================== */
 
-export const sweetFailureProvider = (
-  msg: string,
-  show_button: boolean = false,
-  forward_url: string = ""
-) => {
-  Swal.fire({
-    icon: "error",
-    title: msg,
-    showConfirmButton: show_button,
-    confirmButtonText: "OK",
-  }).then(() => {
-    if (forward_url !== "") {
-      window.location.replace(forward_url);
+  if (
+    axios.isAxiosError(err)
+  ) {
+
+    const data =
+      err.response?.data;
+
+
+    console.log(
+      "AXIOS ERROR DATA:",
+      data,
+    );
+
+
+    /*
+     * Backend:
+     *
+     * {
+     *   message: "Wrong password"
+     * }
+     */
+
+    if (
+      typeof data?.message ===
+      "string"
+    ) {
+
+      return data.message;
     }
-  });
+
+
+    /*
+     * NestJS kabi:
+     *
+     * {
+     *   message: [
+     *      "memberNick is required",
+     *      "password is required"
+     *   ]
+     * }
+     */
+
+    if (
+      Array.isArray(
+        data?.message,
+      )
+    ) {
+
+      return data.message.join(
+        "\n",
+      );
+    }
+
+
+    /*
+     * Backend:
+     *
+     * {
+     *    error: "Unauthorized"
+     * }
+     */
+
+    if (
+      typeof data?.error ===
+      "string"
+    ) {
+
+      return data.error;
+    }
+
+
+    /*
+     * Backend:
+     *
+     * {
+     *    msg: "Something..."
+     * }
+     */
+
+    if (
+      typeof data?.msg ===
+      "string"
+    ) {
+
+      return data.msg;
+    }
+
+
+    /*
+     * Response to'g'ridan-to'g'ri
+     * string bo'lishi ham mumkin.
+     */
+
+    if (
+      typeof data ===
+      "string"
+    ) {
+
+      return data;
+    }
+
+
+    /*
+     * Network Error va boshqalar
+     */
+
+    if (
+      err.message
+    ) {
+
+      return err.message;
+    }
+  }
+
+
+  /* ==============================
+     NORMAL JAVASCRIPT ERROR
+  ============================== */
+
+  if (
+    err instanceof Error
+  ) {
+
+    return err.message;
+  }
+
+
+  /* ==============================
+     STRING ERROR
+  ============================== */
+
+  if (
+    typeof err ===
+    "string"
+  ) {
+
+    return err;
+  }
+
+
+  return "Something went wrong.";
 };
+
+
+/* =====================================================
+   ERROR ALERT
+===================================================== */
+
+export const sweetErrorHandling =
+  async (
+    err: unknown,
+  ) => {
+
+    const message =
+      getErrorMessage(
+        err,
+      );
+
+
+    await Swal.fire({
+
+      icon:
+        "error",
+
+      title:
+        "Error",
+
+      text:
+        message,
+
+      confirmButtonText:
+        "OK",
+
+      confirmButtonColor:
+        "#222",
+
+    });
+  };
+
+
+/* =====================================================
+   SUCCESS ALERT
+===================================================== */
+
+export const sweetSuccessHandling =
+  async (
+    message: string,
+  ) => {
+
+    await Swal.fire({
+
+      icon:
+        "success",
+
+      title:
+        "Success",
+
+      text:
+        message,
+
+      confirmButtonText:
+        "OK",
+
+      confirmButtonColor:
+        "#222",
+
+    });
+  };

@@ -20,7 +20,7 @@ class ProductService {
             if (inquiry.productMaterial) url += `&productMaterial=${inquiry.productMaterial}`
             if (inquiry.productColor) url += `&productColor=${inquiry.productColor}`
             if (inquiry.search) url += `&search=${inquiry.search}`
-
+            console.log("REQUEST URL:", url);
             const result = await axios.get(url)
             console.log("PRODUCTS", result)
             return result.data.result

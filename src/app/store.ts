@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import HomePageReducer from './screens/homePage/homepageSlice';
 import ProductPageReducer from './screens/productsPage/productPageSlice';
+import OrdersPageReducer from './screens/cartPage/CartPageslice';
 
 export const store = configureStore({
     reducer: {
         homePage: HomePageReducer,
-        productPage: ProductPageReducer
+        productPage: ProductPageReducer,
+        ordersPage: OrdersPageReducer,
     },
 })
 

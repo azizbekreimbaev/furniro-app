@@ -28,7 +28,7 @@ export interface MemberInput {
 }
 
 export interface MemberUpdateInput {
-    _id: string,
+    _id?: string,
     memberType?: MemberType,
     memberStatus?: MemberStatus,
     memberNick?: string,
