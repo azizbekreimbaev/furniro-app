@@ -10,13 +10,13 @@ const useBasket = () => {
     //** HANDLERS */
 
     const onAdd = (input: CartItem) => {
-        const exist: any = cartItems.find((item: CartItem) => {
+        const exist = cartItems.find((item: CartItem) => {
             return item._id === input._id                            // cartItems bizda mavjud savat b-b items mavjud ichidagiu productrlar input kirgizmoqachi bolgan product
         });
 
         if (exist) {
             const cartUpdate = cartItems.map((item: CartItem) => {
-                return item._id === input._id ? { ...exist, quantity: exist.quantity + 1 } : item
+                return item._id === input._id ? { ...item, quantity: exist.quantity + input.quantity } : item
             });
 
             setCartItems(cartUpdate)
@@ -31,9 +31,11 @@ const useBasket = () => {
     }
 
     const onRemove = (input: CartItem) => {
-        const exist: any = cartItems.find((item: CartItem) => {
+        const exist = cartItems.find((item: CartItem) => {
             return item._id === input._id                            // cartItems bizda mavjud savat b-b items mavjud ichidagiu productrlar input kirgizmoqachi bolgan product
         });
+
+        if (!exist) return;
 
         if (exist.quantity === 1) {
             const cartUpdate = cartItems.filter((item: CartItem) => {
@@ -44,7 +46,7 @@ const useBasket = () => {
             localStorage.setItem("cartData", JSON.stringify(cartUpdate));
         } else {
             const cartUpdate = cartItems.map((item: CartItem) => {
-                return item._id === input._id ? { ...exist, quantity: exist.quantity - 1 } : item
+                return item._id === input._id ? { ...item, quantity: exist.quantity - 1 } : item
             });
             setCartItems(cartUpdate)
             localStorage.setItem("cartData", JSON.stringify(cartUpdate));

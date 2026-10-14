@@ -23,6 +23,7 @@ import {
 } from "./productPageSlice";
 
 import ProductService from "../../services/ProductService";
+import { useGlobals } from "../../hooks/useGlobals";
 
 import {
     serverApi,
@@ -36,6 +37,8 @@ const ProductDetail = () => {
 
     const dispatch =
         useAppDispatch();
+
+    const { basket } = useGlobals();
 
 
     /* =========================================
@@ -320,18 +323,12 @@ const ProductDetail = () => {
 
     const handleAddToCart =
         () => {
-
-            console.log({
-                productId:
-                    product._id,
-
-                productName:
-                    product.productName,
-
-                productPrice:
-                    product.productPrice,
-
+            basket.onAdd({
+                _id: product._id,
+                name: product.productName,
+                price: product.productPrice,
                 quantity,
+                image: product.productImages[0],
             });
         };
 

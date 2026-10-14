@@ -7,17 +7,13 @@ import { Link } from "react-router";
 
 import type { Product } from "../../../libs/types/product";
 import { serverApi } from "../../../libs/config";
-import { useGlobals } from "../../hooks/useGlobals";
 
 interface ProductCardProps {
     product: Product;
+    onAddToCart: (product: Product) => void;
 }
 
-const ProductCard = ({
-    product,
-}: ProductCardProps) => {
-
-    const { basket } = useGlobals();
+const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
 
     const [isAdded, setIsAdded] =
         useState(false);
@@ -35,17 +31,8 @@ const ProductCard = ({
         };
     }, [isAdded]);
 
-
     const handleAddToCart = () => {
-
-        basket.onAdd({
-            _id: product._id,
-            quantity: 1,
-            name: product.productName,
-            price: product.productPrice,
-            image: product.productImages[0],
-        });
-
+        onAddToCart(product);
         setIsAdded(true);
     };
 

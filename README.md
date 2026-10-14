@@ -1,5 +1,18 @@
 # React + TypeScript + Vite
 
+## Docker deployment
+
+Build the production image, supplying the API URL that the browser should call:
+
+```bash
+docker build --build-arg VITE_APP_API_URL=https://api.example.com -t furniro-app .
+docker run --rm -p 8080:80 furniro-app
+```
+
+Then open http://localhost:8080. The `/health` endpoint returns `ok` and can be used by a container platform health check.
+
+`VITE_APP_API_URL` is compiled into the frontend during the image build, so change it and rebuild the image when deploying to a different API host.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
