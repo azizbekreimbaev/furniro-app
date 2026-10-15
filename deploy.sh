@@ -17,8 +17,9 @@ yarn
 yarn run build 
 
 
-pm2 start node.exe \
+pm2 delete FURNIRO-REACT 2>/dev/null || true
+pm2 start node \
   --name FURNIRO-REACT \
-  --cwd "C:\Users\Aziz\Desktop\furniro-app" \
+  --cwd "$(pwd)" \
   -- node_modules/serve/build/main.js -s dist -l 80
 pm2 save

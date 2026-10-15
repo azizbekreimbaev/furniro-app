@@ -17,7 +17,7 @@ import type {
     AppDispatch,
 } from "../../store";
 
-import "../../css/cartpage.css";
+import "../../css/cartPage.css";
 
 import {
     useGlobals,
