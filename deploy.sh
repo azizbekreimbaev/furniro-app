@@ -18,8 +18,8 @@ yarn run build
 
 
 pm2 delete FURNIRO-REACT 2>/dev/null || true
-pm2 start node \
+pm2 start node_modules/serve/build/main.js \
   --name FURNIRO-REACT \
   --cwd "$(pwd)" \
-  -- node_modules/serve/build/main.js -s dist -l 80
+  -- -s dist -l 80
 pm2 save
