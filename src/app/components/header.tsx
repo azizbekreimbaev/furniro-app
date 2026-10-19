@@ -256,6 +256,7 @@ const UserAvatar = ({
 ===================================================== */
 
 const Header = () => {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const location =
         useLocation();
@@ -643,6 +644,9 @@ const Header = () => {
         <>
 
             <header
+                onKeyDown={(event) => {
+                    if (event.key === "Escape") setMobileMenuOpen(false);
+                }}
                 className={
                     headerClassName
                 }
@@ -778,7 +782,9 @@ const Header = () => {
                         NAVIGATION
                     ================================= */}
 
-                    <nav className="header-menu">
+                    <nav id="store-navigation" aria-label="Main navigation"
+                        className={`header-menu${mobileMenuOpen ? " header-menu-open" : ""}`}
+                        onClick={() => setMobileMenuOpen(false)}>
 
 
                         {/* HOME */}
@@ -889,6 +895,7 @@ const Header = () => {
                             About Us
                         </NavLink>
 
+                        {!authMember && <button type="button" className="header-mobile-login" onClick={handleLoginOpen}>Login to your account</button>}
                     </nav>
 
 
@@ -897,6 +904,12 @@ const Header = () => {
                     ================================= */}
 
                     <div className="header-actions">
+                        <button type="button" className="header-menu-toggle"
+                            aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+                            aria-expanded={mobileMenuOpen} aria-controls="store-navigation"
+                            onClick={() => setMobileMenuOpen((open) => !open)}>
+                            {mobileMenuOpen ? <span aria-hidden="true">×</span> : <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="1.6" /></svg>}
+                        </button>
 
 
                         {/* =================================

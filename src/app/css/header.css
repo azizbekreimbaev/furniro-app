@@ -1,6 +1,7 @@
 /* ======================================================
    HEADER BASE
 ====================================================== */
+.header-menu-toggle, .header-mobile-login { display: none; }
 .header {
     width: 100%;
     height: 84px;
@@ -478,7 +479,7 @@
 /* ======================================================
    MOBILE
 ====================================================== */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1100px) {
     .header {
         height: 72px;
     }
@@ -600,4 +601,26 @@
         width: 38px;
         height: 38px;
     }
+}
+
+/* Touch navigation for phones and iPad portrait/landscape. */
+@media (max-width: 1100px) {
+    .header { height: auto; min-height: 72px; }
+    .header-container { min-height: 72px; flex-wrap: wrap; gap: 0 8px; }
+    .header-menu-toggle { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: inherit; }
+    .header-menu-toggle span { font-size: 30px; line-height: 1; }
+    .header-menu.header-menu-open { display: flex; }
+    .header-menu { position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100dvh - 120px); overflow-y: auto; flex-direction: column; align-items: stretch; gap: 0; margin: 0; padding: 12px 24px 20px; background: #faf7f0; color: #292722; border-bottom: 1px solid #d7cfc1; box-shadow: 0 16px 24px #29272218; }
+    .header-menu .header-nav-link { height: auto; min-height: 48px; font-size: 16px; padding: 12px 0; border-bottom: 1px solid #e5ded2; }
+    .header-nav-link::after { display: none; }
+    .header-menu .active { font-weight: 700; }
+    .header-mobile-login { display: block; min-height: 48px; padding: 12px 0; border: 0; text-align: left; color: inherit; background: transparent; font-size: 16px; }
+    .header-search { display: flex; order: 3; width: 100%; height: 44px; margin-bottom: 8px; }
+    .header-search input { font-size: 16px; }
+    .header-actions { gap: 3px; }
+    .header-actions .header-login { display: none !important; }
+}
+@media (max-width: 360px) {
+    .header-logo-mark { display: none; }
+    .header-logo-info strong { font-size: 16px; }
 }

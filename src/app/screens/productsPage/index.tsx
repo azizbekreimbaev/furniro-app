@@ -9,6 +9,7 @@ import {
 } from "react-router";
 
 import ShopHero from "./ShopHero";
+import { useGlobals } from "../../hooks/useGlobals";
 import ProductToolbar from "./ProductToolbar";
 import ProductGrid from "./ProductGrid";
 
@@ -58,6 +59,7 @@ const categories: CategoryOption[] = [
 
 
 const ProductsPage = () => {
+    const { basket } = useGlobals();
 
     const location =
         useLocation();
@@ -336,10 +338,13 @@ const ProductsPage = () => {
         product: Product
     ) => {
 
-        console.log(
-            "ADD TO CART:",
-            product
-        );
+        basket.onAdd({
+            _id: product._id,
+            name: product.productName,
+            price: product.productPrice,
+            image: product.productImages[0],
+            quantity: 1,
+        });
     };
 
 

@@ -1766,3 +1766,26 @@
         grid-template-columns: 1fr;
     }
 }
+@media (max-width: 800px) {
+    .shop-sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }
+    .shop-sidebar-heading, .shop-sidebar-result { grid-column: 1 / -1; }
+    .shop-by-heading { margin-top: 8px; }
+    .shop-filter-block { min-width: 0; margin-bottom: 0; }
+    .shop-sidebar-sort { max-width: 100%; }
+    .product-breadcrumb-content { flex-wrap: wrap; overflow-wrap: anywhere; }
+    .product-detail-main { padding: 36px 0 50px; }
+}
+@media (max-width: 420px) {
+    .shop-sidebar { grid-template-columns: minmax(0, 1fr); }
+    .product-main-image { height: 330px; }
+}
+@media (hover: none) {
+    .shop-product-view, .shop-product-image-overlay { opacity: 1; transform: none; }
+}
+
+.shop-filter-toggle { display: none; }
+@media (max-width: 800px) {
+    .shop-filter-toggle { display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 12px 18px; border: 1px solid #cec2b2; color: #292722; background: #fffaf3; font-size: 16px; text-align: left; }
+    .shop-sidebar:not(.shop-sidebar-open) { display: none; }
+    .shop-filter-list button, .shop-material-list button { min-height: 44px; }
+}

@@ -109,6 +109,7 @@ const ProductToolbar = ({
     onMaterialChange,
     onSortChange,
 }: ProductToolbarProps) => {
+    const [filtersOpen, setFiltersOpen] = useState(false);
 
 
     /* =========================================
@@ -212,8 +213,12 @@ const ProductToolbar = ({
 
 
     return (
-
-        <aside className="shop-sidebar">
+        <>
+        <button type="button" className="shop-filter-toggle" aria-expanded={filtersOpen}
+            aria-controls="shop-filters" onClick={() => setFiltersOpen((open) => !open)}>
+            {filtersOpen ? "Hide filters" : "Filter & sort"} · {activeCategory}
+        </button>
+        <aside id="shop-filters" className={`shop-sidebar${filtersOpen ? " shop-sidebar-open" : ""}`}>
 
 
             {/* =================================
@@ -541,6 +546,7 @@ const ProductToolbar = ({
             </div>
 
         </aside>
+        </>
     );
 };
 

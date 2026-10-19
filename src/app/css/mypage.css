@@ -740,3 +740,10 @@
     line-height: 1.5;
     text-align: center;
 }
+/* Tablet layouts retain room for readable controls and product photography. */
+@media (min-width: 701px) and (max-width: 1100px) {
+    .mypage-layout { grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.5fr); gap: 24px; }
+    .mypage-form { grid-template-columns: 1fr; }
+    .mypage-full-width, .mypage-form-actions { grid-column: auto; }
+    .mypage-form-header { flex-wrap: wrap; }
+}
